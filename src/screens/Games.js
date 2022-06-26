@@ -1,12 +1,12 @@
 import React from 'react';
 import { View, StyleSheet, FlatList } from 'react-native';
-
-import colors from '../../constants/colors';
-import { ListItem, ListSeparator } from './GamesList';
-import { NewGameButton } from './NewGameButton';
 import { useDispatch, useSelector } from 'react-redux'
-import { addGame, deleteGame } from '../../redux/actions/games';
-import { EmptyGamesList } from './EmptyGamesList'
+
+import colors from '../constants/colors';
+import { ListItem, ListSeparator } from '../components/Games/GamesList';
+import { EmptyGamesList } from '../components/Games/EmptyGamesList'
+import { NewGameButton } from '../components/Games/NewGameButton';
+import { addGame, deleteGame } from '../redux/actions/games';
 
 
 const styles = StyleSheet.create({

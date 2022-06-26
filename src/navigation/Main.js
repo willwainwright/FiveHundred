@@ -3,7 +3,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import { Games } from '../components/Games';
+import { Games } from '../screens/Games';
 import { TextDemo, ButtonDemo, FormDemo } from '../screens/Demos';
 import colors from '../constants/colors';
 
