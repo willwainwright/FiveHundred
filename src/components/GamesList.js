@@ -9,6 +9,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     paddingVertical: 10,
     backgroundColor: colors.white,
+    alignItems : 'center'
   },
   titleText: {
     fontWeight: 'bold',
@@ -19,14 +20,14 @@ const styles = StyleSheet.create({
   },
 });
 
-export const ListItem = ({ title, subtitle, onPress = () => null }) => {
-  const rowStyles = [styles.row];
+export const ListItem = (props) => {
+  const {game, onPress} = props;
 
   return (
     <TouchableOpacity onPress={onPress}>
-      <View style={rowStyles}>
-        <Text style={styles.titleText}>{title}</Text>
-        <Text>{subtitle}</Text>
+      <View style={styles.row}>
+        <Text style={styles.titleText}>{game.TeamOne} v {game.TeamTwo}</Text>
+        <Text>{game.ScoreOne} | {game.ScoreTwo}</Text>
       </View>
     </TouchableOpacity>
   );

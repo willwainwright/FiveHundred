@@ -1,8 +1,9 @@
 export default {
-  primary: '#053B57',
+  suits: ['Hearts', 'Diamonds', 'Clubs', 'Diamonds'],
   border: '#c6c6c6',
   white: '#fff',
   gray: '#9ca5ab',
   background: '#eef0f3',
-  error: '#b55464'
+  error: '#b55464',
 };
+
