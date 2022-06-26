@@ -3,7 +3,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import { Games } from '../screens/Games';
+import { Games } from '../components/Games';
 import { TextDemo, ButtonDemo, FormDemo } from '../screens/Demos';
 import colors from '../constants/colors';
 
@@ -29,8 +29,8 @@ const getIcon = (route, focused) => {
         : 'md-settings-outline';
     default:
       return focused
-          ? 'md-home-outline'
-          : 'md-home-sharp';
+        ? 'md-home-sharp'
+        : 'md-home-outline';
   }
 }
 

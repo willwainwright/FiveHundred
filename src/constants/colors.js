@@ -4,5 +4,7 @@ export default {
   white: '#fff',
   gray: '#9ca5ab',
   background: '#eef0f3',
-  error: '#b55464'
+  error: '#b55464',
+  black: '#fff',
+  red: '#FF382C'
 };
