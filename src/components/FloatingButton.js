@@ -1,7 +1,7 @@
 
 import { TouchableOpacity, StyleSheet, Image } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import colors from '../../constants/colors';
+import colors from '../constants/colors';
 
 const testGame =  {
   GameId: 1,
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     },
   });
 
-export const NewGameButton = (props) => {
+export const FloatingButton = (props) => {
     const {onPress} = props;
     return (
       <TouchableOpacity

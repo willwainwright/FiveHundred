@@ -29,7 +29,7 @@ export const FormDemo = () => {
   return (
     <View style={styles.container}>
       <TextInput
-        label="Email Address"
+        label="Email Address2"
         placeholder="Enter your email..."
         value={email}
         onChangeText={text => setEmail(text)}

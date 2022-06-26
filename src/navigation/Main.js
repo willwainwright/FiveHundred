@@ -4,6 +4,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import { Games } from '../screens/Games';
+import { NewGame } from '../screens/NewGame';
+import { Hands } from '../screens/Hands';
 import { TextDemo, ButtonDemo, FormDemo } from '../screens/Demos';
 import colors from '../constants/colors';
 
@@ -44,14 +46,14 @@ const StackNav = () => {
           component={Games}
       />
       <Stack.Screen 
-          name="FormDemo" 
-          component={FormDemo}
-          options={{ headerTitle: 'Text Demo' }}
+          name="NewGame" 
+          component={NewGame}
+          options={{ headerTitle: 'Create new game' }}
       />
       <Stack.Screen 
-          name="ButtonDemo" 
-          component={ButtonDemo}
-          options={{ headerTitle: 'Text Demo' }}
+          name="Hands" 
+          component={Hands}
+          options={{ headerTitle: 'Hands' }}
       />
       <Stack.Screen 
           name="TextDemo" 
@@ -84,7 +86,7 @@ export const Main = () => (
     <Tab.Screen
       name="Help"
       component={FormDemo}
-      options={{ headerTitle: 'Button Demo' }}
+      options={{ headerTitle: 'Help' }}
     />
     <Tab.Screen
       name="Settings"

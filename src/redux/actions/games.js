@@ -1,4 +1,4 @@
-import { ADD_GAME, DELETE_GAME } from './types';
+import { ADD_GAME, DELETE_GAME, SET_ACTIVE_GAME } from './types';
 
 export const addGame = game => {
   return {
@@ -7,9 +7,16 @@ export const addGame = game => {
   }
 }
 
-export const deleteGame = game => {
+export const deleteGame = gameId => {
   return {
     type: DELETE_GAME,
-    payload: game
+    payload: gameId
+  }
+}
+
+export const setActiveGame = gameId => {
+  return {
+    type: SET_ACTIVE_GAME,
+    payload: gameId
   }
 }

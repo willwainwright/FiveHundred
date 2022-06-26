@@ -1,9 +1,10 @@
-import { ADD_GAME, DELETE_GAME } from '../actions/types';
+import { ADD_GAME, DELETE_GAME, SET_ACTIVE_GAME } from '../actions/types';
 import { GetGames } from '../../Services/Games'
 
 const initialState = {
   games: [],
-  maxGameId:0
+  maxGameId:0,
+  currentGameId: 0
 };
 
 const getMaxGameId = (maxGameId) => {
@@ -26,7 +27,8 @@ const addGame = (state, payload) => {
       Winner: payload.Winner
     }
     ],
-    maxGameId: maxGameId
+    maxGameId: maxGameId,
+    currentGameId: maxGameId
   }
 }
 
@@ -37,12 +39,21 @@ const deleteGame = (state, deleteId) => {
   }
 }
 
+const setActiveGame = (state, gameId) => {
+  return  {       
+    ...state,
+    maxGameId: gameId
+  }
+}
+
 const gameReducer = (state = initialState, action) => {
   switch(action.type) {
     case ADD_GAME:
       return addGame(state,action.payload );
     case DELETE_GAME:
       return deleteGame(state, action.payload);
+    case SET_ACTIVE_GAME:
+      return setActiveGame(state, action.payload);
     default:
       return state;
   }

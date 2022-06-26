@@ -1,5 +1,4 @@
 import { View, StyleSheet, Text, Image } from 'react-native';
-import colors from '../../constants/colors';
 
 const styles = StyleSheet.create({
   container: {
@@ -23,13 +22,13 @@ const styles = StyleSheet.create({
   }
   });
 
-export const EmptyGamesList = () => {
+export const EmptyList = (text) => {
     return (
       <View style={styles.container}>
           <Text style={styles.emptyListStyle}>
-            Tap the + button to create a new game
+          {text}
           </Text>
-        <Image style={styles.newGameArrowStyle} source={require('../../../assets/arrow.png')} />
+        <Image style={styles.newGameArrowStyle} source={require('../../assets/arrow.png')} />
       </View>
       )
 }
