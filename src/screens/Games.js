@@ -6,7 +6,7 @@ import colors from '../constants/colors';
 import { ListItem, ListSeparator } from '../components/Games/GamesList';
 import { EmptyList } from '../components/EmptyList'
 import { FloatingButton } from '../components/FloatingButton';
-import { addGame, deleteGame } from '../redux/actions/games';
+import { deleteGame, setActiveGame } from '../redux/actions/games';
 
 
 const styles = StyleSheet.create({
@@ -16,18 +16,6 @@ const styles = StyleSheet.create({
   }
 });
 
-const simpleGame = () =>
-{
-  return {
-    DateStarted: '2022-06-02 15:34',
-    DateFinished: '2022-06-02 16:34',
-    TeamOne: 'Phoebe',
-    TeamTwo: 'Will',
-    ScoreOne: 100,
-    ScoreTwo: 500,
-    Winner: 2
-  }
-}
 
 const newGameButtonHandler = (dispatch, navigation) => {
     navigation.navigate('NewGame');
@@ -35,6 +23,11 @@ const newGameButtonHandler = (dispatch, navigation) => {
 
 const deleteGameHandler = (dispatch, index) => {
   dispatch(deleteGame(index));
+};
+
+const openGameHandler = (dispatch, navigation, gameId) => {
+  dispatch(setActiveGame(gameId));
+  navigation.navigate('Hands');
 };
 
 export const Games = ({ navigation }) => {
@@ -53,7 +46,7 @@ export const Games = ({ navigation }) => {
           <ListItem
             game={item}
             onDelete={() => deleteGameHandler(dispatch, index)}
-            onPress={() => alert('Edit Game: ' + item.GameId )}
+            onPress={() => openGameHandler(dispatch, navigation, item.GameId)}
           />
         )}
         ItemSeparatorComponent={ListSeparator}
