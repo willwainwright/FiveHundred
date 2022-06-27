@@ -1,5 +1,4 @@
 import { ADD_GAME, DELETE_GAME, SET_ACTIVE_GAME } from '../actions/types';
-import { GetGames } from '../../Services/Games'
 
 const initialState = {
   games: [],
@@ -19,7 +18,7 @@ const addGame = (state, payload) => {
     games: [...state.games, {
       GameId: maxGameId,
       DateStarted: payload.DateStarted,
-      DateFinished: payload.DateFinished,
+      DateLastModified: payload.DateLastModified,
       TeamOne: payload.TeamOne,
       TeamTwo: payload.TeamTwo,
       ScoreOne: payload.ScoreOne,

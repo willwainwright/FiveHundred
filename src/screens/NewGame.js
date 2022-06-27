@@ -28,15 +28,13 @@ const onSuccess = (navigation, dispatch, teamOne, teamTwo) =>  {
     }   
     dispatch(addGame(newGame));
 
-    navigation.navigate('Games');
+    navigation.navigate('Hands');
 }
 
 export const NewGame = ({ navigation }) => {
     const { submit, errors, teamOne, setTeamOne, teamTwo, setTeamTwo } = newGameFormValidation();
     const dispatch = useDispatch();
-  
-    const borderStyles = [styles.border];
-  
+    
     return (
         <View style={styles.container}>
             <TextInput

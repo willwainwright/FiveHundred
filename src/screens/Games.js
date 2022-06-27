@@ -3,7 +3,8 @@ import { View, StyleSheet, FlatList } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux'
 
 import colors from '../constants/colors';
-import { ListItem, ListSeparator } from '../components/Games/GamesList';
+import { GameListItem } from '../components/Games/GameListItem';
+import { ListSeparator } from '../components/ListItem';
 import { EmptyList } from '../components/EmptyList'
 import { FloatingButton } from '../components/FloatingButton';
 import { deleteGame, setActiveGame } from '../redux/actions/games';
@@ -17,8 +18,8 @@ const styles = StyleSheet.create({
 });
 
 
-const newGameButtonHandler = (dispatch, navigation) => {
-    navigation.navigate('NewGame');
+const newGameButtonHandler = (navigation) => {
+  navigation.navigate('NewGame');
 };
 
 const deleteGameHandler = (dispatch, index) => {
@@ -43,7 +44,7 @@ export const Games = ({ navigation }) => {
         ListEmptyComponent={EmptyList("Tap the + button to create a new game")}
         keyExtractor={item => item.GameId}
         renderItem={({item, index}) => (
-          <ListItem
+          <GameListItem
             game={item}
             onDelete={() => deleteGameHandler(dispatch, index)}
             onPress={() => openGameHandler(dispatch, navigation, item.GameId)}
@@ -53,7 +54,7 @@ export const Games = ({ navigation }) => {
         ListHeaderComponent={ListSeparator}
         ListFooterComponent={ListSeparator}
       />
-      <FloatingButton onPress={() => newGameButtonHandler(dispatch, navigation)} />
-    </View>
+      <FloatingButton onPress={() => newGameButtonHandler(navigation)} />
+    </View>  
   );
 };

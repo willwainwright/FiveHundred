@@ -2,6 +2,7 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { HeaderBackButton } from '@react-navigation/elements';
 
 import { Games } from '../screens/Games';
 import { NewGame } from '../screens/NewGame';
@@ -53,7 +54,14 @@ const StackNav = () => {
       <Stack.Screen 
           name="Hands" 
           component={Hands}
-          options={{ headerTitle: 'Hands' }}
+          options={({navigation, route}) => ({
+            headerLeft: (props) => (
+              <HeaderBackButton
+                {...props}
+                onPress={() => navigation.navigate('Games')}
+              />
+            ),
+       })}
       />
       <Stack.Screen 
           name="TextDemo" 

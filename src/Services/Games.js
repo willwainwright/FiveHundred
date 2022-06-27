@@ -6,7 +6,7 @@ const games = [
     {
       GameId: 0,
       DateStarted: '2022-06-01 15:34',
-      DateFinished: '2022-06-01 16:34',
+      DateLastModified: '2022-06-01 16:34',
       TeamOne: 'Team A',
       TeamTwo: 'Team B',
       ScoreOne: 300,
@@ -16,7 +16,7 @@ const games = [
     {
       GameId: 1,
       DateStarted: '2022-06-02 15:34',
-      DateFinished: '2022-06-02 16:34',
+      DateLastModified: '2022-06-02 16:34',
       TeamOne: 'Phoebe',
       TeamTwo: 'Will',
       ScoreOne: 100,
@@ -26,7 +26,7 @@ const games = [
     {
       GameId: 2,
       DateStarted: '2022-06-03 15:34',
-      DateFinished: '2022-06-03 16:34',
+      DateLastModified: '2022-06-03 16:34',
       TeamOne: 'Team A',
       TeamTwo: 'Team B',
       ScoreOne: 500,
@@ -36,7 +36,7 @@ const games = [
     {
       GameId: 3,
       DateStarted: '2022-06-04 15:34',
-      DateFinished: '2022-06-04 16:34',
+      DateLastModified: '2022-06-04 16:34',
       TeamOne: 'Team Fantastic',
       TeamTwo: 'Team Brilliant',
       ScoreOne: 500,
@@ -46,7 +46,7 @@ const games = [
     {
       GameId: 4,
       DateStarted: '2022-06-01 15:34',
-      DateFinished: '2022-06-01 16:34',
+      DateLastModified: '2022-06-01 16:34',
       TeamOne: 'Team A',
       TeamTwo: 'Team B',
       ScoreOne: 300,
@@ -56,7 +56,7 @@ const games = [
     {
       GameId: 5,
       DateStarted: '2022-06-02 15:34',
-      DateFinished: '2022-06-02 16:34',
+      DateLastModified: '2022-06-02 16:34',
       TeamOne: 'Phoebe',
       TeamTwo: 'Will',
       ScoreOne: 100,
@@ -66,7 +66,7 @@ const games = [
     {
       GameId: 6,
       DateStarted: '2022-06-03 15:34',
-      DateFinished: '2022-06-03 16:34',
+      DateLastModified: '2022-06-03 16:34',
       TeamOne: 'Team A',
       TeamTwo: 'Team B',
       ScoreOne: 500,
@@ -76,7 +76,7 @@ const games = [
     {
       GameId: 7,
       DateStarted: '2022-06-04 15:34',
-      DateFinished: '2022-06-04 16:34',
+      DateLastModified: '2022-06-04 16:34',
       TeamOne: 'Team Fantastic',
       TeamTwo: 'Team Brilliant',
       ScoreOne: 500,
@@ -86,7 +86,7 @@ const games = [
     {
       GameId: 8,
       DateStarted: '2022-06-01 15:34',
-      DateFinished: '2022-06-01 16:34',
+      DateLastModified: '2022-06-01 16:34',
       TeamOne: 'Team A',
       TeamTwo: 'Team B',
       ScoreOne: 300,
@@ -96,7 +96,7 @@ const games = [
     {
       GameId: 9,
       DateStarted: '2022-06-02 15:34',
-      DateFinished: '2022-06-02 16:34',
+      DateLastModified: '2022-06-02 16:34',
       TeamOne: 'Phoebe',
       TeamTwo: 'Will',
       ScoreOne: 100,
@@ -106,7 +106,7 @@ const games = [
     {
       GameId: 10,
       DateStarted: '2022-06-03 15:34',
-      DateFinished: '2022-06-03 16:34',
+      DateLastModified: '2022-06-03 16:34',
       TeamOne: 'Team A',
       TeamTwo: 'Team B',
       ScoreOne: 500,

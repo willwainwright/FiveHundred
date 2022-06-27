@@ -1,21 +1,12 @@
+import colors from '../constants/colors';
+
 import React from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import { Text } from '../Text';
-import colors from '../../constants/colors';
 
 const styles = StyleSheet.create({
-  row: {
-    paddingHorizontal: 15,
-    paddingVertical: 10,
-    backgroundColor: colors.white,
-    alignItems : 'center'
-  },
-  titleText: {
-    fontWeight: 'bold',
-  },
   separator: {
     height: StyleSheet.hairlineWidth,
     backgroundColor: colors.border,
@@ -46,19 +37,17 @@ const rightSwipeActions = (onPress) => {
 
 
 export const ListItem = (props) => {
-  const {game, onPress, onDelete} = props;
+  const {onPress, onDelete} = props;
 
   return (
     <Swipeable
         renderRightActions={() => rightSwipeActions(onDelete)} >
       <TouchableOpacity onPress={onPress} >
-        <View style={styles.row}>
-          <Text style={styles.titleText}>{game.TeamOne} v {game.TeamTwo}</Text>
-          <Text>{game.ScoreOne} | {game.ScoreTwo}</Text>
-        </View>
+        {props.children}
       </TouchableOpacity>
     </Swipeable>
   );
 };
+
 
 export const ListSeparator = () => <View style={styles.separator} />;

@@ -3,17 +3,6 @@ import { TouchableOpacity, StyleSheet, Image } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import colors from '../constants/colors';
 
-const testGame =  {
-  GameId: 1,
-  DateStarted: '2022-06-02 15:34',
-  DateFinished: '2022-06-02 16:34',
-  TeamOne: 'Phoebe',
-  TeamTwo: 'Will',
-  ScoreOne: 100,
-  ScoreTwo: 500,
-  Winner: 2
-}
-
 const styles = StyleSheet.create({
     touchableOpacityStyle: {
       position: 'absolute',
