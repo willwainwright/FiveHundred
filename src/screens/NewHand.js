@@ -1,64 +1,76 @@
-import { View, StyleSheet } from 'react-native';
+import React from 'react';
+import { View, StyleSheet, Dimensions, Text } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux'
+
 import { addHand } from '../redux/actions/hands';
-
 import { Button } from '../components/Button';
-import { TextInput } from '../components/Form';
-
 import colors from '../constants/colors';
 
 
-export function NewHand () {
-    const dispatch = useDispatch();
-    const CurrentGameId = useSelector(state => state.CurrentGameId)
-    const Game = getCurrentGame(CurrentGameId, useSelector(state => state.Games) );
-    
+export function NewHand () { 
+    const [teamOption, setTeamOption] = React.useState('');  
+    const [numberOfTricks, setNumberOfTricks] = React.useState(0);
+    const handleChange = (v) => setNumberOfTricks((v / 10).toFixed(0));
+
+    const getCurrentGame = (CurrentGameId, Games) => {
+        const game =  Games.find(x => x.GameId === CurrentGameId);
+        return game;
+    }
+
+    const game = getCurrentGame(useSelector(state => state.CurrentGameId), useSelector(state => state.Games) );
+
+    const handleOnPress = (team) => {
+        setTeamOption(team);
+    }
+
     const styles = StyleSheet.create({
         container: {
             flex: 1,
-            backgroundColor: colors.backgroundColor,
             padding: 10,
+            backgroundColor: colors.backgroundColor,
+        },        
+        teamSelectorContainer: {
+            flexDirection: "column", 
+            minHeight:110,
+            backgroundColor:"red",
+            
         },
+        teamSelectorHeaderText: {
+            fontSize: 28,
+            fontWeight: '500',
+            textAlign: "center"
+        },
+        teamSelectorButtonContainer : {
+           flex:1,
+           flexDirection: "row",
+           flexWrap: "wrap",
+           alignSelf: "center"
+
+        },
+        teamSelectedButton :  {
+            borderRadius: 50,
+            alignSelf: "flex-start",
+            marginHorizontal: "1%",
+            minWidth: "48%",
+            textAlign: "center",
+        },
+        CirclePickerContainer: {
+            flex:1,
+            justifyContent: 'center',
+        }
     });
-
-    
-    const onSuccess = (teamOne, teamTwo) =>  {
-        const newHand = {
-            DateStarted: new Date(),
-            TeamOne: teamOne,
-            TeamTwo: teamTwo,
-            ScoreOne: 0,
-            ScoreTwo: 0,
-            Winner: 0
-        }   
-        dispatch(addGame(newGame));
-
-        navigation.navigate('Hands');
-    }
 
     return (
         <View style={styles.container}>
-            <View style ={styles.teamSelectorContainer}>
-                <Button>{Game.TeamOne}</Button>
-                <Button>{Game.TeamTwo}</Button>
+            <View style={styles.teamSelectorContainer}>
+                <Text style={styles.teamSelectorHeaderText}>Bidding team</Text>
+                <View style={styles.teamSelectorButtonContainer} >
+                    <Button containerStylesOverride={styles.teamSelectedButton} type={teamOption === "Team1" && "outline"} onPress={() => handleOnPress("Team1")}> Team 1</Button>
+                    <Button containerStylesOverride={styles.teamSelectedButton} type={teamOption === "Team2" && "outline"} onPress={() => handleOnPress("Team2")}> Team 2</Button>
+                </View>
             </View>
-            <TextInput
-                label="Enter suit"
-                placeholder="Enter name for team one?"
-                value={teamOne}
-                onChangeText={text => setTeamOne(text)}
-                errorText={errors.teamOne}
-                keyboardType="email-address"
-                autoCapitalize="none"
-            />
-            <TextInput
-                label="Team Two"
-                placeholder="Enter name for team two?"
-                value={teamTwo}
-                onChangeText={text => setTeamTwo(text)}
-                errorText={errors.teamTwo}
-            />
-            <Button onPress={() => submit(onSuccess)}>Next</Button>
+            <View style={styles.CirclePickerContainer} >
+            </View>
       </View>
     );
   };

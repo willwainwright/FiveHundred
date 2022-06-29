@@ -45,7 +45,8 @@ const StackNav = () => {
     <Stack.Navigator>
       <Stack.Screen
           name="Games"
-          component={Games}
+          // component={Games}
+          component={NewHand}
       />
       <Stack.Screen 
           name="NewGame" 

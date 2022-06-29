@@ -28,14 +28,17 @@ const styles = StyleSheet.create({
   },
 });
 
-export const Button = ({ onPress = () => {}, children = '', type }) => {
+export const Button = (props) => {
+  const { onPress = () => {}, children = '', type, containerStylesOverride } = props;
   const containerStyles = [styles.container];
   const textStyles = [styles.text];
+  console.log(containerStylesOverride)
 
   if (type === 'outline') {
     containerStyles.push(styles.containerOutline);
     textStyles.push(styles.textOutline);
   }
+  containerStyles.push(containerStylesOverride);
 
   return (
     <TouchableOpacity onPress={onPress} style={containerStyles}>
