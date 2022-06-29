@@ -74,6 +74,7 @@ export const Hands = () => {
 
     dispatch(addHand(newHand));
     dispatch(updateScore(gameId))
+    navigation.navigate('NewHand', {game});
   };
 
   const deleteHandHandler = ( index) => {
