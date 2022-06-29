@@ -6,6 +6,7 @@ import { HeaderBackButton } from '@react-navigation/elements';
 
 import { Games } from '../screens/Games';
 import { NewGame } from '../screens/NewGame';
+import { NewHand } from '../screens/NewHand';
 import { Hands } from '../screens/Hands';
 import { TextDemo, ButtonDemo, FormDemo } from '../screens/Demos';
 import colors from '../constants/colors';
@@ -62,6 +63,11 @@ const StackNav = () => {
               />
             ),
        })}
+      />
+      <Stack.Screen 
+          name="NewHand" 
+          component={NewHand}
+          options={{ headerTitle: 'Enter bet' }}
       />
       <Stack.Screen 
           name="TextDemo" 

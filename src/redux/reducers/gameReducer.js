@@ -1,61 +1,80 @@
-import { ADD_GAME, DELETE_GAME, SET_ACTIVE_GAME } from '../actions/types';
+import { sortArrayBy } from '../../util/array';
 
-const initialState = {
-  games: [],
-  maxGameId:0,
-  currentGameId: 0
-};
-
-const getMaxGameId = (maxGameId) => {
-  return maxGameId+1;
+const getMaxGameId = (MaxGameId) => {
+  return MaxGameId + 1;
 }
 
+const calculateScore = (hands) => {
 
-const addGame = (state, payload) => {
-  const maxGameId = getMaxGameId(state.maxGameId);
+  // Calculate the running score.
+  if(hands?.length === 0) return 0;
+
+  let teamOneScore = 0, teamTwoScore = 0;
+
+  // Sort array by handId
+  const handsSorted = sortArrayBy(hands, 'HandId')
+
+  // For each object in array
+  handsSorted.map(h => {
+    teamOneScore += h.TeamOneHandScore;
+    teamTwoScore += h.TeamTwoHandScore;
+  })
+
+  return {teamOneScore, teamTwoScore};
+}
+
+const getHandsForCurrentGame = (CurrentGameId, Games) => {
+  const game =  Games.find(x => x.GameId === CurrentGameId);
+  return game.Hands;
+}
+
+export const updateScore = (state, gameId) => {
+
+  const Hands = getHandsForCurrentGame(gameId, state.Games)
+  const {teamOneScore, teamTwoScore} = calculateScore(Hands);
   return  {       
     ...state,
-    games: [...state.games, {
-      GameId: maxGameId,
+    Games: state.Games.map((game) => 
+      game.GameId === gameId ?
+        {...game, ScoreOne: teamOneScore, scoreTwo: teamTwoScore}
+      : game
+    )
+  }
+}
+
+export const addGame = (state, payload) => {
+  const MaxGameId = getMaxGameId(state.MaxGameId);
+  return  {       
+    ...state,
+    Games: [...state.Games, {
+      GameId: MaxGameId,
       DateStarted: payload.DateStarted,
       DateLastModified: payload.DateLastModified,
       TeamOne: payload.TeamOne,
       TeamTwo: payload.TeamTwo,
       ScoreOne: payload.ScoreOne,
       ScoreTwo: payload.ScoreTwo,
-      Winner: payload.Winner
+      Winner: payload.Winner,
+      Hands: [],
+      MaxHandId: 0
     }
     ],
-    maxGameId: maxGameId,
-    currentGameId: maxGameId
+    MaxGameId: MaxGameId,
+    CurrentGameId: MaxGameId
   }
 }
 
-const deleteGame = (state, deleteId) => {
+export const deleteGame = (state, deleteId) => {
   return  {       
     ...state,
-    games: state.games.filter((item, index) => index !== deleteId)
+    Games: state.Games.filter((item, index) => index !== deleteId)
   }
 }
 
-const setActiveGame = (state, gameId) => {
+export const setActiveGame = (state, gameId) => {
   return  {       
     ...state,
-    maxGameId: gameId
+    MaxGameId: gameId
   }
 }
 
-const gameReducer = (state = initialState, action) => {
-  switch(action.type) {
-    case ADD_GAME:
-      return addGame(state,action.payload );
-    case DELETE_GAME:
-      return deleteGame(state, action.payload);
-    case SET_ACTIVE_GAME:
-      return setActiveGame(state, action.payload);
-    default:
-      return state;
-  }
-}
-
-export default gameReducer;

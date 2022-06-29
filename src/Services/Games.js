@@ -1,8 +1,8 @@
 export const GetGames = () => {
-    return games;
+    return Games;
 }
 
-const games = [
+const Games = [
     {
       GameId: 0,
       DateStarted: '2022-06-01 15:34',

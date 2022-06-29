@@ -37,14 +37,14 @@ const teamContainer = (Score) => {
 }
 
 export const HandListItem = (props) => {
-  const {hand, onPress, onDelete} = props;
+  const {hand, game, onPress, onDelete} = props;
 
   return (
     <ListItem onPress={onPress} onDelete={onDelete}>
       <View style={styles.rowContainer}>
-        {teamContainer(hand.HandId)}
+        {teamContainer(hand.RunningTeamOneScore)}
       <View style={styles.verticleLine}></View>
-        {teamContainer(hand.HandId)}
+        {teamContainer(hand.RunningTeamTwoScore)}
       </View>
 
      </ListItem>

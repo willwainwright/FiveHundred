@@ -1,9 +1,9 @@
 import { ADD_HAND, DELETE_HAND, SET_ACTIVE_HAND } from './types';
 
-export const addHand = HAND => {
+export const addHand = hand => {
   return {
     type: ADD_HAND,
-    payload: HAND
+    payload: hand
   }
 }
 
