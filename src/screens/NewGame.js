@@ -5,36 +5,36 @@ import { addGame } from '../redux/actions/games';
 import { newGameFormValidation } from '../util/newGameFormValidation';
 import { Button } from '../components/Button';
 import { TextInput } from '../components/Form';
+import { useNavigation } from '@react-navigation/native';
 
 import colors from '../constants/colors';
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: colors.backgroundColor,
-        padding: 10,
-      },
-  });
-
-  
-const onSuccess = (navigation, dispatch, teamOne, teamTwo) =>  {
-    const newGame = {
-        DateStarted: new Date(),
-        TeamOne: teamOne,
-        TeamTwo: teamTwo,
-        ScoreOne: 0,
-        ScoreTwo: 0,
-        Winner: 0
-    }   
-    dispatch(addGame(newGame));
-
-    navigation.navigate('Hands');
-}
-
-export const NewGame = ({ navigation }) => {
+export function NewGame (props) {
     const { submit, errors, teamOne, setTeamOne, teamTwo, setTeamTwo } = newGameFormValidation();
     const dispatch = useDispatch();
+    const navigation = useNavigation();    
     
+    const styles = StyleSheet.create({
+        container: {
+            flex: 1,
+            backgroundColor: colors.backgroundColor,
+            padding: 10,
+        },
+    });
+    
+    const onSuccess = (teamOne, teamTwo) =>  {
+        const newGame = {
+            DateStarted: new Date(),
+            TeamOne: teamOne,
+            TeamTwo: teamTwo,
+            ScoreOne: 0,
+            ScoreTwo: 0,
+            Winner: 0
+        }   
+        dispatch(addGame(newGame));
+        navigation.navigate('Hands');
+    }
+
     return (
         <View style={styles.container}>
             <TextInput
@@ -53,8 +53,8 @@ export const NewGame = ({ navigation }) => {
                 onChangeText={text => setTeamTwo(text)}
                 errorText={errors.teamTwo}
             />
-            <Button onPress={() => submit(onSuccess, navigation, dispatch)}>Next</Button>
+            <Button onPress={() => submit(onSuccess)}>Next</Button>
       </View>
     );
-  };
+};
   
