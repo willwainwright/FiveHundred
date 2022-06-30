@@ -23,8 +23,9 @@ export function NewGame (props) {
     });
     
     const onSuccess = (teamOne, teamTwo) =>  {
+        const now = new Date();
         const newGame = {
-            DateStarted: new Date(),
+            DateStarted: now.toISOString(),
             TeamOne: teamOne,
             TeamTwo: teamTwo,
             ScoreOne: 0,

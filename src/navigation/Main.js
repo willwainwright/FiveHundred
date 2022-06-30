@@ -7,6 +7,7 @@ import { HeaderBackButton } from '@react-navigation/elements';
 import { Games } from '../screens/Games';
 import { NewGame } from '../screens/NewGame';
 import { NewHand } from '../screens/NewHand';
+import { HandResult } from '../screens/HandResult';
 import { Hands } from '../screens/Hands';
 import { TextDemo, ButtonDemo, FormDemo } from '../screens/Demos';
 import colors from '../constants/colors';
@@ -46,7 +47,7 @@ const StackNav = () => {
       <Stack.Screen
           name="Games"
           // component={Games}
-          component={NewHand}
+          component={NewHand  }
       />
       <Stack.Screen 
           name="NewGame" 
@@ -71,9 +72,9 @@ const StackNav = () => {
           options={{ headerTitle: 'Enter bet' }}
       />
       <Stack.Screen 
-          name="TextDemo" 
-          component={TextDemo}
-          options={{ headerTitle: 'Text Demo' }}
+          name="HandResult" 
+          component={HandResult}
+          options={{ headerTitle: 'Hand result' }}
       />
     </Stack.Navigator>
   )

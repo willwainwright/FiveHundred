@@ -5,12 +5,13 @@ import Slider from '@react-native-community/slider';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
+import { addHand } from '../redux/actions/hands';
 import { Button } from '../components/Button';
 import colors from '../constants/colors';
 import { suits } from '../constants/game';
 
 
-export function NewHand () { 
+export function HandResult () { 
     const [team, setTeam] = React.useState('');  
     const [numberOfTricks, setNumberOfTricks] = React.useState(6);
     const [suit, setSuit] = React.useState('');
@@ -24,40 +25,7 @@ export function NewHand () {
 
     const game = getCurrentGame(useSelector(state => state.CurrentGameId), useSelector(state => state.Games) );
 
-    const handleNumberOfTricksSlider = (value) => {
-        setNumberOfTricks(value)
-    }
-
-    const handleOnNextButtonOnPressIn = () => {
-        console.log('handleOnNextButtonOnPressIn')
-        setShowNextButtonTooltip(true);
-    }
     
-    const handleOnNextButtonOnPressOut = () => {
-        console.log('handleOnNextButtonOnPressOut')
-        setShowNextButtonTooltip(false);
-    }
-    
-    const handleNextButtonOnPress = () => {
-        console.log('handleNextButtonOnPress')
-        const now = new Date();
-        const newHand = {
-            DateEntered: now,
-            BettingTeam: team === game.TeamOneName ? 1 : 0,
-            Bet: bets[suit],
-            BetAmount: numberOfTricks,
-            WonAmount: -1
-        }
-    
-        dispatch(addGame(newGame));
-        navigation.navigate('Hands');
-    }
-
-    useEffect(() => {
-        const isDisabled = team == '' || suit == '';
-        setNextButtonDisabled(isDisabled);        
-    }, [team, suit]);
-
 
 
     const getImageSource = (suitSelected) => {
@@ -68,6 +36,20 @@ export function NewHand () {
                 return suitSelected === suit ? require('../../assets/suits/clubs-outline.png') : require('../../assets/suits/clubs.png');
             case "DIAMONDS" :
                 return suitSelected === suit ? require('../../assets/suits/diamonds-outline.png') : require('../../assets/suits/diamonds.png');
+            case "HEARTS" :
+                return suitSelected === suit ? require('../../assets/suits/hearts-outline.png') : require('../../assets/suits/hearts.png');
+            case "NO_TRUMPS" :
+                return suitSelected === suit ? require('../../assets/suits/no_trumps-outline.png') : require('../../assets/suits/no_trumps.png');
+            default:
+                return suitSelected === suit ? require('../../assets/suits/clubs-outline.png') : require('../../assets/suits/spades.png');
+        }
+    }
+    const getBackgroundColour = () => {
+        switch(suit) {
+            case "SPADES" :
+            case "CLUBS" :
+                return suitSelected === suit ? require('../../assets/suits/clubs-outline.png') : require('../../assets/suits/clubs.png');
+            case "DIAMONDS" :
             case "HEARTS" :
                 return suitSelected === suit ? require('../../assets/suits/hearts-outline.png') : require('../../assets/suits/hearts.png');
             case "NO_TRUMPS" :
@@ -135,51 +117,7 @@ export function NewHand () {
 
     return (
         <View style={styles.container}>
-            <View style={styles.sectionContainer}>
-                <Text style={styles.headerText}>Who won the bet?</Text>
-                <View style={styles.teamSelectorButtonContainer} >
-                    <Button containerStylesOverride={styles.teamSelectedButton} type={team === "Team1" && "outline"} onPress={() => setTeam("Team1")}> Team 1</Button>
-                    <Button containerStylesOverride={styles.teamSelectedButton} type={team === "Team2" && "outline"} onPress={() => setTeam("Team2")}> Team 2</Button>
-                </View>
-            </View>
-            <View style={styles.sectionContainer} >
-                <Text style={styles.headerText}>Select the suit</Text>
-                <View style={styles.suitPickerImageContainer} >
-                    {suits.map((suit) => (
-                        <TouchableOpacity onPress={() => setSuit(suit)} key ={suit}  style={styles.circle} >
-                            <Image style={styles.suitImageStyle} source={getImageSource(suit)} />
-                        </TouchableOpacity>
-                    ))}
-                </View>
-            </View>
-            <View style={styles.sectionContainer} >
-                <Text style={styles.headerText}>Select how many tricks</Text>
-                <Slider
-                    style={{width: "90%"}}
-                    minimumValue={6}
-                    maximumValue={10}
-                    minimumTrackTintColor="#FFFFFF"
-                    maximumTrackTintColor="#000000"
-                    onValueChange={handleNumberOfTricksSlider}
-                    step={1}
-                    thumbTintColor = {colors.primary}
-                    />
-                <Text style={styles.headerText}>{numberOfTricks}</Text>
-                
-            </View>
-            <View style={[styles.sectionContainer, styles.bottomButtons]} >
-                <TouchableOpacity disabled={nextButtonDisabled} onPressIn={handleOnNextButtonOnPressIn} onPressOut={handleOnNextButtonOnPressOut} onPress={handleNextButtonOnPress}> 
-                    <Ionicons name={'arrow-forward-circle'} 
-                                color={nextButtonDisabled ? colors.gray : colors.primary} 
-                                size={65}
-                                style={{paddingLeft:10}}                            
-                    />
-                </TouchableOpacity>
-                <Ionicons name={'md-stats-chart'} 
-                            color={colors.primary} 
-                            size={65}
-                />
-            </View>
+            
       </View>
     );
   };

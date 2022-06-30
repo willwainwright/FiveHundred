@@ -12,6 +12,9 @@ export const bets = {
     PATASTROPHE: 11,
 }
 
+export const suits = ['SPADES', 'CLUBS','DIAMONDS','HEARTS', 'NO_TRUMPS']
+
+
 export const baseScore = {
     original:{
         1: 40,

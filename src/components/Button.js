@@ -32,7 +32,6 @@ export const Button = (props) => {
   const { onPress = () => {}, children = '', type, containerStylesOverride } = props;
   const containerStyles = [styles.container];
   const textStyles = [styles.text];
-  console.log(containerStylesOverride)
 
   if (type === 'outline') {
     containerStyles.push(styles.containerOutline);
