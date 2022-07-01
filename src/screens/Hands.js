@@ -64,16 +64,6 @@ export const Hands = () => {
   });
 
   const newHandButtonHandler = (gameId) => {
-    const newHand = {
-        DateEntered: '2022-06-02 15:34',
-        BettingTeam: 1,
-        Bet: bets.DIAMONDS,
-        BetAmount: 7,
-        WonAmount: 8
-    }
-
-    dispatch(addHand(newHand));
-    dispatch(updateScore(gameId))
     navigation.navigate('NewHand', {game});
   };
 

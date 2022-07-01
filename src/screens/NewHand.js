@@ -1,13 +1,15 @@
 import React, { useEffect } from 'react';
 import { View, StyleSheet, TouchableOpacity, Text, Image } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux'
+import { useNavigation } from '@react-navigation/native';
 import Slider from '@react-native-community/slider';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import { Button } from '../components/Button';
+import { addHand } from '../redux/actions/hands';
 import colors from '../constants/colors';
-import { suits } from '../constants/game';
+import { suits, bets} from '../constants/game';
 
 
 export function NewHand () { 
@@ -16,6 +18,9 @@ export function NewHand () {
     const [suit, setSuit] = React.useState('');
     const [nextButtonDisabled, setNextButtonDisabled] = React.useState(true);
     const [showNextButtonTooltip, setShowNextButtonTooltip] = React.useState(false);
+
+    const dispatch = useDispatch();
+    const navigation = useNavigation();
 
     const getCurrentGame = (CurrentGameId, Games) => {
         const game =  Games.find(x => x.GameId === CurrentGameId);
@@ -42,23 +47,23 @@ export function NewHand () {
         console.log('handleNextButtonOnPress')
         const now = new Date();
         const newHand = {
-            DateEntered: now,
-            BettingTeam: team === game.TeamOneName ? 1 : 0,
+            DateEntered: now.toISOString(),
+            BettingTeam: team === game.TeamOne ? 1 : 0,
             Bet: bets[suit],
             BetAmount: numberOfTricks,
             WonAmount: -1
         }
     
-        dispatch(addGame(newGame));
-        navigation.navigate('Hands');
+        navigation.navigate('HandResult', {
+            game: game,
+            hand: newHand,
+          });
     }
 
     useEffect(() => {
         const isDisabled = team == '' || suit == '';
         setNextButtonDisabled(isDisabled);        
     }, [team, suit]);
-
-
 
     const getImageSource = (suitSelected) => {
         switch(suitSelected) {
@@ -83,8 +88,7 @@ export function NewHand () {
             paddingVertical: 10,
             paddingHorizontal:5,
             backgroundColor: colors.backgroundColor,
-            flexDirection: "column",
-            paddingBottom:40
+            flexDirection: "column"
         },        
         sectionContainer: {
             flex:1,
@@ -138,8 +142,8 @@ export function NewHand () {
             <View style={styles.sectionContainer}>
                 <Text style={styles.headerText}>Who won the bet?</Text>
                 <View style={styles.teamSelectorButtonContainer} >
-                    <Button containerStylesOverride={styles.teamSelectedButton} type={team === "Team1" && "outline"} onPress={() => setTeam("Team1")}> Team 1</Button>
-                    <Button containerStylesOverride={styles.teamSelectedButton} type={team === "Team2" && "outline"} onPress={() => setTeam("Team2")}> Team 2</Button>
+                    <Button containerStylesOverride={styles.teamSelectedButton} type={team === game.TeamOne && "outline"} onPress={() => setTeam(game.TeamOne)}>{game.TeamOne}</Button>
+                    <Button containerStylesOverride={styles.teamSelectedButton} type={team === game.TeamTwo && "outline"} onPress={() => setTeam(game.TeamTwo)}>{game.TeamTwo}</Button>
                 </View>
             </View>
             <View style={styles.sectionContainer} >

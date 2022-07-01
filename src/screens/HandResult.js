@@ -1,61 +1,62 @@
 import React, { useEffect } from 'react';
 import { View, StyleSheet, TouchableOpacity, Text, Image } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux'
+import { useNavigation } from '@react-navigation/native';
 import Slider from '@react-native-community/slider';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import { addHand } from '../redux/actions/hands';
 import { Button } from '../components/Button';
 import colors from '../constants/colors';
-import { suits } from '../constants/game';
+import { suits, bets} from '../constants/game';
+import { TricksWonCircle } from '../components/HandResult/TricksWonCircle';
 
+export function HandResult ({ route, navigation }) { 
+    const { hand, game } = route.params;
+    console.log(hand);
+    
+    const [tricksWon, setTricksWon] = React.useState(0);
+    const handleTricksWonCircleChange = (v) => setTricksWon((v / 10).toFixed(0));
 
-export function HandResult () { 
-    const [team, setTeam] = React.useState('');  
-    const [numberOfTricks, setNumberOfTricks] = React.useState(6);
-    const [suit, setSuit] = React.useState('');
-    const [nextButtonDisabled, setNextButtonDisabled] = React.useState(true);
-    const [showNextButtonTooltip, setShowNextButtonTooltip] = React.useState(false);
-
-    const getCurrentGame = (CurrentGameId, Games) => {
-        const game =  Games.find(x => x.GameId === CurrentGameId);
-        return game;
-    }
-
-    const game = getCurrentGame(useSelector(state => state.CurrentGameId), useSelector(state => state.Games) );
 
     
+    useEffect(() => {
+        console.log(hand.Bet)
+        navigation.setOptions({ headerStyle: {
+            backgroundColor: getBackgroundColour(),
+            
+          }, headerTintColor: colors.white })       
+    }, []);
+    
 
-
-    const getImageSource = (suitSelected) => {
-        switch(suitSelected) {
-            case "SPADES" :
-                return suitSelected === suit ? require('../../assets/suits/spades-outline.png') : require('../../assets/suits/spades.png');
-            case "CLUBS" :
-                return suitSelected === suit ? require('../../assets/suits/clubs-outline.png') : require('../../assets/suits/clubs.png');
-            case "DIAMONDS" :
-                return suitSelected === suit ? require('../../assets/suits/diamonds-outline.png') : require('../../assets/suits/diamonds.png');
-            case "HEARTS" :
-                return suitSelected === suit ? require('../../assets/suits/hearts-outline.png') : require('../../assets/suits/hearts.png');
-            case "NO_TRUMPS" :
-                return suitSelected === suit ? require('../../assets/suits/no_trumps-outline.png') : require('../../assets/suits/no_trumps.png');
+    const getImageSource = () => {
+        switch(hand.Bet) {
+            case 1 :
+                return require('../../assets/suits/spades-white.png');
+            case 2 :
+                return require('../../assets/suits/clubs-white.png');
+            case 3 :
+                return require('../../assets/suits/diamonds-white.png');
+            case 4:
+                return require('../../assets/suits/hearts-white.png');
+            case 5 :
+                return require('../../assets/suits/no_trumps.png');
             default:
-                return suitSelected === suit ? require('../../assets/suits/clubs-outline.png') : require('../../assets/suits/spades.png');
+                return require('../../assets/suits/clubs-white.png');
         }
     }
     const getBackgroundColour = () => {
-        switch(suit) {
-            case "SPADES" :
-            case "CLUBS" :
-                return suitSelected === suit ? require('../../assets/suits/clubs-outline.png') : require('../../assets/suits/clubs.png');
-            case "DIAMONDS" :
-            case "HEARTS" :
-                return suitSelected === suit ? require('../../assets/suits/hearts-outline.png') : require('../../assets/suits/hearts.png');
-            case "NO_TRUMPS" :
-                return suitSelected === suit ? require('../../assets/suits/no_trumps-outline.png') : require('../../assets/suits/no_trumps.png');
+        switch(hand.Bet) {
+            case 1 :
+            case 2 :
+                return colors.black;
+            case 3 :
+            case 4 :
+                return colors.red;
+            case 5 :
+                return colors.white;
             default:
-                return suitSelected === suit ? require('../../assets/suits/clubs-outline.png') : require('../../assets/suits/spades.png');
+                return colors.white;
         }
     }
 
@@ -64,60 +65,44 @@ export function HandResult () {
             flex: 1,
             paddingVertical: 10,
             paddingHorizontal:5,
-            backgroundColor: colors.backgroundColor,
-            flexDirection: "column",
-            paddingBottom:40
-        },        
-        sectionContainer: {
-            flex:1,
-            alignItems: 'center',
-        },
-        headerText: {
+            backgroundColor: getBackgroundColour(),
+            paddingBottom:40,
+            justifyContent: "center",
+            alignItems: 'center'
+        },   
+        title: {
+            color: "white",
             fontSize: 28,
             fontWeight: '500',
-            textAlign: "center"
-        },
-        teamSelectorButtonContainer : {
-           flexDirection: "row",
-           flexWrap: "wrap",
-           alignSelf: "center" 
-        },
-        teamSelectedButton :  {
-            borderRadius: 50,
-            alignSelf: "flex-start",
-            marginHorizontal: "1%",
-            minWidth: "48%",
             textAlign: "center",
+            marginBottom:25
+        },   
+        textContainer: {
+            width:"50%",
         },
-        suitPickerImageContainer: {
-            flex:1,
+        floatingImage: {
+            position: 'absolute',
+            width: 50,
+            height: 50,
+            alignItems: 'center',
             justifyContent: 'center',
-            flexWrap: "wrap",
-            flexDirection: "row"
+            right: 40,
+            bottom: 40,
         },
-        circle: {
-            flex:1,
-            height: 70,
-            margin:5,      
-         },
-         suitImageStyle : {             
-            flex: 1,
-            width: null,
-            height: null,
-            resizeMode: 'contain'
-         },
-         bottomButtons: {
-            alignItems:'flex-end',
-            paddingRight:20,
-            flexDirection: "row-reverse",
-        },
-         
     });
-
 
     return (
         <View style={styles.container}>
-            
+            <View style={styles.textContainer}>
+                <Text style={styles.title}>How many tricks were won?</Text>
+            </View>
+            <TricksWonCircle tricksTarget={hand.BetAmount} handleChange={handleTricksWonCircleChange} >
+
+                <Text style={styles.text}>{tricksWon}</Text>
+            </TricksWonCircle>
+            <View style={styles.floatingImage}>
+                <Image source={getImageSource()} />
+            </View>
       </View>
     );
   };
