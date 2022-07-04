@@ -29,14 +29,33 @@ const getHandsForCurrentGame = (CurrentGameId, Games) => {
 }
 
 export const updateScore = (state, gameId) => {
-
   const Hands = getHandsForCurrentGame(gameId, state.Games)
+  
   const {teamOneScore, teamTwoScore} = calculateScore(Hands);
   return  {       
     ...state,
     Games: state.Games.map((game) => 
       game.GameId === gameId ?
-        {...game, ScoreOne: teamOneScore, scoreTwo: teamTwoScore}
+        {...game, ScoreOne: teamOneScore, ScoreTwo: teamTwoScore}
+      : game
+    )
+  }
+}
+
+export const updateGame = (state, payload) => {
+  return  {       
+    ...state,
+    Games: state.Games.map((game) => 
+      game.GameId === payload.GameId ?
+        {...game,       
+          DateStarted: payload.DateStarted,
+          DateLastModified: payload.DateLastModified,
+          TeamOne: payload.TeamOne,
+          TeamTwo: payload.TeamTwo,
+          ScoreOne: payload.ScoreOne,
+          ScoreTwo: payload.ScoreTwo,
+          Winner: payload.Winner,
+          Hands: payload.Hands}
       : game
     )
   }

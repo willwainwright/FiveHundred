@@ -1,5 +1,6 @@
 import { suits, bets, baseScore } from '../../constants/game';
 
+
 const getMaxHandId = (maxHandId) => {
   return maxHandId + 1;
 }
@@ -37,7 +38,6 @@ const calculateScore = (h) =>{
 
   return {teamOneScore, teamTwoScore};
 }
-
 
 export const addHand = (state, payload) => {
   const {teamOneScore, teamTwoScore} = calculateScore(payload);

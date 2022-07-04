@@ -11,8 +11,16 @@ export const bets = {
     DOUBLE_MIS: 10,
     PATASTROPHE: 11,
 }
+// This whole thing needs cleaning
+export const suits = {
+    1: "Spades",
+    2: "Clubs",
+    3: "Diamonds",
+    4: "Hearts",
+    5: "No trumps"
+}
 
-export const suits = ['SPADES', 'CLUBS','DIAMONDS','HEARTS', 'NO_TRUMPS']
+// export const suits = ['SPADES', 'CLUBS','DIAMONDS','HEARTS', 'NO_TRUMPS']
 
 
 export const baseScore = {

@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   labelText: {
-    color: colors.gray,
+    color: colors.black,
     fontSize: 18,
     marginBottom: 10,
   },

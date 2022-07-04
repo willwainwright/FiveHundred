@@ -28,7 +28,7 @@ export const EmptyList = (text) => {
           <Text style={styles.emptyListStyle}>
           {text}
           </Text>
-        <Image style={styles.newGameArrowStyle} source={require('../../assets/arrow.png')} />
+        {/* <Image style={styles.newGameArrowStyle} source={require('../../assets/arrow.png')} /> */}
       </View>
       )
 }

@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, StyleSheet, FlatList, Text } from 'react-native';
+import React, {useEffect} from 'react';
+import { View, StyleSheet, FlatList, Image } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux'
 
 import colors from '../constants/colors';
@@ -15,6 +15,7 @@ import { sortArrayBy } from '../util/array'
 import { useNavigation } from '@react-navigation/native';
 
 export const Hands = () => {
+  const [completedGame, setCompletedGame] = React.useState(false);
   
   const CurrentGameId = useSelector(state => state.CurrentGameId)
   const dispatch = useDispatch();
@@ -22,8 +23,16 @@ export const Hands = () => {
 
   const getCurrentGame = (CurrentGameId, Games) => {
     const game =  Games.find(x => x.GameId === CurrentGameId);
+    
     return game;
   }
+
+      
+  useEffect(() => {
+    if(game?.ScoreOne >=500 || game?.ScoreTwo >= 500) {
+      setCompletedGame(true);
+    }
+  }, []);    
 
   const calculateRunningScore = (hands) => {
     // Calculate the running score.
@@ -60,6 +69,13 @@ export const Hands = () => {
       height: '100%',
       width:1,
       backgroundColor: '#909090',
+    },
+    fireworks: {
+      position:'absolute',
+      height:"100%",
+      width:"100%",
+      left:0,
+      top:0
     }
   });
 
@@ -96,6 +112,7 @@ export const Hands = () => {
           ListFooterComponent={ListSeparator}
         />
         <FloatingButton onPress={() => newHandButtonHandler(CurrentGameId)} />
+      {completedGame && <Image source={require('../../assets/fireworks.gif')}  style={styles.fireworks}/>}
     </View>
   );
 };

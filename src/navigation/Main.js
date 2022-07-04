@@ -47,7 +47,7 @@ const StackNav = () => {
       <Stack.Screen
           name="Games"
           component={Games}
-          //component={NewHand  }
+          // component={NewHand}
       />
       <Stack.Screen 
           name="NewGame" 
@@ -76,6 +76,16 @@ const StackNav = () => {
           component={HandResult}
           options={{ headerTitle: 'Hand result' }}
       />
+      {/* <Stack.Screen 
+          name="HandResultAlt" 
+          component={HandResultAlt}
+          options={{ headerTitle: 'Hand result' }}
+      />
+      <Stack.Screen 
+          name="HandResultAlt2" 
+          component={HandResultAlt2}
+          options={{ headerTitle: 'Hand result' }}
+      /> */}
     </Stack.Navigator>
   )
 };

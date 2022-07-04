@@ -23,6 +23,7 @@ export const TricksWonCircle = (props) => {
                     0: ['rgb(255, 97, 99)', 'rgb(247, 129, 119)'],
                     [tricksTarget *10]: ['rgb(75, 202, 129)', 'rgb(75, 202, 129)'] 
                 }}
+                strokeWidth={20}
                 onChange={handleChange} > 
             <Text style={styles.text}>{children}</Text>
         </CircularPicker>
