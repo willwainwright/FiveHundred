@@ -5,10 +5,9 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { HeaderBackButton } from '@react-navigation/elements';
 
 import { Games } from '../screens/Games';
+import { Hands } from '../screens/Hands';
 import { NewGame } from '../screens/NewGame';
 import { NewHand } from '../screens/NewHand';
-import { HandResult } from '../screens/HandResult';
-import { Hands } from '../screens/Hands';
 import { TextDemo, ButtonDemo, FormDemo } from '../screens/Demos';
 import colors from '../constants/colors';
 
@@ -71,21 +70,6 @@ const StackNav = () => {
           component={NewHand}
           options={{ headerTitle: 'Enter bet' }}
       />
-      <Stack.Screen 
-          name="HandResult" 
-          component={HandResult}
-          options={{ headerTitle: 'Hand result' }}
-      />
-      {/* <Stack.Screen 
-          name="HandResultAlt" 
-          component={HandResultAlt}
-          options={{ headerTitle: 'Hand result' }}
-      />
-      <Stack.Screen 
-          name="HandResultAlt2" 
-          component={HandResultAlt2}
-          options={{ headerTitle: 'Hand result' }}
-      /> */}
     </Stack.Navigator>
   )
 };
