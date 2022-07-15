@@ -9,8 +9,6 @@ import { HandsHeader } from '../components/Hands/HandsHeader';
 import { ListSeparator } from '../components/ListItem';
 import { EmptyList } from '../components/EmptyList'
 import { FloatingButton } from '../components/FloatingButton';
-import { addHand, deleteHand } from '../redux/actions/hands';
-import { updateScore } from '../redux/actions/games';
 import { sortArrayBy } from '../util/array'
 import { useNavigation } from '@react-navigation/native';
 
@@ -18,43 +16,18 @@ export const Hands = () => {
   const [completedGame, setCompletedGame] = React.useState(false);
   
   const CurrentGameId = useSelector(state => state.CurrentGameId)
+  const game = useSelector(state => state.Games[CurrentGameId]);
   const dispatch = useDispatch();
   const navigation = useNavigation();
-
-  const getCurrentGame = (CurrentGameId, Games) => {
-    const game =  Games.find(x => x.GameId === CurrentGameId);
-    
-    return game;
-  }
 
       
   useEffect(() => {
     if(game?.ScoreOne >=500 || game?.ScoreTwo >= 500) {
       setCompletedGame(true);
     }
-  }, []);    
+  }, []); 
+   
 
-  const calculateRunningScore = (hands) => {
-    // Calculate the running score.
-    if(hands?.length === 0) return hands;
-
-    let handsWithScore = hands;  
-    let teamOneScore = 0, teamTwoScore = 0;
-
-    // Sort array by handId
-    const handsSorted = sortArrayBy(hands, 'HandId')
-
-    // For each object in array
-    handsSorted.map((h, index) => {
-      teamOneScore += h.TeamOneHandScore;
-      teamTwoScore += h.TeamTwoHandScore;
-      
-      handsWithScore[index].RunningTeamOneScore = teamOneScore;
-      handsWithScore[index].RunningTeamTwoScore = teamTwoScore;
-    })
-
-    return handsWithScore;
-  }
 
   const styles = StyleSheet.create({
     container: {
@@ -87,8 +60,6 @@ export const Hands = () => {
     // dispatch(deleteGame(index));
     alert('Delete Hand');
   };
-  const game = getCurrentGame(CurrentGameId, useSelector(state => state.Games) );
-  const hands = calculateRunningScore(game.Hands);
 
   return (
     <View style={styles.container}>
@@ -96,7 +67,7 @@ export const Hands = () => {
         <FlatList
           style={styles.container}
           contentContainerStyle={{ flex: 1 }}
-          data={hands}
+          data={game?.Hands}
           ListEmptyComponent={EmptyList("Tap the + button to start a new hand")}
           keyExtractor={item => item.HandId}
           renderItem={({item, index}) => (

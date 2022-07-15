@@ -23,25 +23,6 @@ const calculateScore = (hands) => {
   return {teamOneScore, teamTwoScore};
 }
 
-const getHandsForCurrentGame = (CurrentGameId, Games) => {
-  const game =  Games.find(x => x.GameId === CurrentGameId);
-  return game.Hands;
-}
-
-export const updateScore = (state, gameId) => {
-  const Hands = getHandsForCurrentGame(gameId, state.Games)
-  
-  const {teamOneScore, teamTwoScore} = calculateScore(Hands);
-  return  {       
-    ...state,
-    Games: state.Games.map((game) => 
-      game.GameId === gameId ?
-        {...game, ScoreOne: teamOneScore, ScoreTwo: teamTwoScore}
-      : game
-    )
-  }
-}
-
 export const updateGame = (state, payload) => {
   return  {       
     ...state,
@@ -75,7 +56,7 @@ export const addGame = (state, payload) => {
       ScoreTwo: payload.ScoreTwo,
       Winner: payload.Winner,
       Hands: [],
-      MaxHandId: 0
+      MaxHandId: -1
     }
     ],
     MaxGameId: MaxGameId,

@@ -10,7 +10,6 @@ import colors from '../constants/colors';
 import { suits, bets} from '../constants/game';
 import { calculateHandScore} from '../util/scoreCalculator';
 import { addHand, setActiveHand } from '../redux/actions/hands';
-import { updateScore } from '../redux/actions/games';
 
 
 export function NewHand () { 
@@ -25,7 +24,7 @@ export function NewHand () {
     const [suitSelectorIndex, setSuitSelectorIndex] = useState(-1);
     const [teamOneScoreChange, setTeamOneScoreChange] = useState(-1);
     const [teamTwoScoreChange, setTeamTwoScoreChange] = useState(0);
-    const [handResultViewOption, setHandResultViewOption] = useState(0);
+    const [tricksChanged, setTricksChanged] = useState(false);
     
     const dispatch = useDispatch();
     const navigation = useNavigation();
@@ -38,7 +37,7 @@ export function NewHand () {
     const game = getCurrentGame(useSelector(state => state.CurrentGameId), useSelector(state => state.Games) );
 
     const handlenumberOfTricksWonSlider = (value) => {
-        setShowScoreChange(true);
+        setTricksChanged(true);
         setNumberOfTricksWon(value)
     }
 
@@ -57,38 +56,25 @@ export function NewHand () {
             BettingTeam: team,
             Bet: suit,
             BetAmount: numberOfTricksBet + 6,
-            WonAmount: numberOfTricksWon
+            WonAmount: numberOfTricksWon,
+            TeamOneScore: teamOneScoreChange,
+            TeamTwoScore: teamTwoScoreChange
         }
-        dispatch(addHand(hand));    
-        dispatch(updateScore(game.GameId));   
-    
-        resetScreen();
+        dispatch(addHand(hand));   
         navigation.replace('Hands');
     }
 
     useEffect(() => {
-        const isDisabled = (team == -1 || suit == -1);
-        setNextButtonDisabled(isDisabled);        
-    }, [team, suit]);
+        const betPlaced = (team != -1 && suit != -1 && tricksChanged != false);
 
-    useEffect(() => {
         const {teamOneScoreChange, teamTwoScoreChange} = calculateHandScore(suit, numberOfTricksWon, numberOfTricksBet+6, team);
         
         setTeamOneScoreChange(teamOneScoreChange);
         setTeamTwoScoreChange(teamTwoScoreChange);
+        setNextButtonDisabled(!betPlaced);   
+        setShowScoreChange(betPlaced) 
     }, [numberOfTricksWon, suit, numberOfTricksBet, team]);
 
-    // This should only be on hand submission ie move to the result page
-    const resetScreen = () =>{
-        setTeam(-1);  
-        setNumberOfTricksBet(6);
-        setNumberOfTricksWon(0);
-        setSuit(-1);
-        setNextButtonDisabled(true);
-        setShowNextButtonTooltip(false);
-        setTeamSelectorIndex(-1);
-        setSuitSelectorIndex(-1);   
-    };
 
     const getImageSource = (suitSelected) => {
         switch(suitSelected) {
@@ -108,13 +94,18 @@ export function NewHand () {
     const styles = StyleSheet.create({
         container: {
             flex: 1,
-            paddingVertical: 10,
+            paddingVertical: 5,
             paddingHorizontal: 5,
             backgroundColor: colors.backgroundColor,
             flexDirection: "column"
         },        
         sectionContainer: {
             flex: 1,
+        },
+        titleText: {
+            fontSize: 30,
+            fontWeight: '700',
+            textAlign: "center"
         },
         headerText: {
             fontSize: 20,
@@ -145,7 +136,22 @@ export function NewHand () {
         buttonGroupContainer: {
             borderRadius: 10,
             marginBottom: 0,
-        }         
+        },
+        scoreChangeSection: {
+            backgroundColor:colors.white, 
+            width: '85%', 
+            alignSelf: 'center', 
+            borderColor: colors.primary, 
+            borderWidth:3, 
+            borderRadius:5, 
+            height: 50, 
+            flexDirection:'row'
+        }   ,
+        scoreChangeInner: {
+            flex: 1, 
+            justifyContent: 'center', 
+            alignItems: 'center' 
+        }
     });
     
     const cmp_spades = () => <Image source={getImageSource('SPADES')} style={styles.suitImageStyle} />
@@ -167,10 +173,32 @@ export function NewHand () {
         setNumberOfTricksBet(value);
     }
 
+    const getScoreColor = (scoreChange) => {
+        if (scoreChange < 0) {
+            return { color: colors.red }; 
+        }
+    }
+
+    const getScoreChangeSectionBorder = () => {
+
+        const scoreChange = team ===1 ? teamOneScoreChange : teamTwoScoreChange;
+
+        if (scoreChange < 0) {
+            return { borderColor: colors.red }; 
+        }
+    }
+
+    const getScoreIndicator = (scoreChange) => {
+        if (scoreChange > 0) {
+            return '+'; 
+        }
+    }
+
     return (
         <View style={styles.container}>
             <View style={[styles.sectionContainer, {}]}>
-                <Text style={[styles.headerText, {marginTop:0}]}>Betting Team</Text>
+                <Text style={[styles.titleText, {marginVertical:0}]}>Bet</Text>
+                <Text style={[styles.headerText, {marginTop:0}]}>Select team</Text>
                 <ButtonGroup
                     buttons={[game.TeamOne, game.TeamTwo]}
                     selectedIndex={teamSelectorIndex}
@@ -178,7 +206,7 @@ export function NewHand () {
                     containerStyle={styles.buttonGroupContainer}
                     selectedButtonStyle={styles.buttonGroupSelected}
                     />
-                <Text style={styles.headerText}>Bet</Text>
+                <Text style={styles.headerText}>Select winning bet</Text>
                 <ButtonGroup
                     buttons={["6", "7", "8", "9", "10"]}
                     selectedIndex={numberOfTricksBet}
@@ -190,13 +218,22 @@ export function NewHand () {
                     buttons={[{ element: cmp_spades }, { element: cmp_clubs }, { element: cmp_diamonds }, { element: cmp_hearts }, { element: cmp_notrumps }]}
                     selectedIndex={suitSelectorIndex}
                     onPress={handleSuitButtonGroup}
-                    containerStyle={[styles.buttonGroupContainer, {height:60, padding:0}]}
+                    containerStyle={[styles.buttonGroupContainer, {height:60, padding:0, margin:0}]}
                     selectedButtonStyle={styles.buttonGroupSelected}
-                    />                   
-                <Text style={[styles.headerText]}>Tricks won</Text>
-                <Text style={[styles.headerText, {textAlign:'center'}]}>{numberOfTricksWon}</Text>
+                    />                
+                <View
+                    style={{
+                        marginTop: 15,
+                        marginBottom: 5,
+                        borderBottomColor: 'black',
+                        borderBottomWidth: StyleSheet.hairlineWidth,
+                    }}
+                    />   
+                <Text style={[styles.titleText]}>Result</Text>
+                <Text style={[styles.headerText, {marginTop:0, marginBottom:0}]}>Tricks won</Text>
+                <Text style={[styles.headerText, {textAlign:'center', marginVertical:0}]}>{numberOfTricksWon}</Text>
                 <Slider
-                    style={{width: "95%", alignSelf:'center'}}
+                    style={{width: "85%", alignSelf:'center'}}
                     minimumValue={0}
                     maximumValue={10}
                     minimumTrackTintColor="#FFFFFF"
@@ -210,9 +247,9 @@ export function NewHand () {
                 <Text style={[styles.headerText, {marginVertical:20}]}>Score change</Text>
                 {showScoreChange &&
                     <>
-                        <View style={{backgroundColor:colors.white, width: '95%', alignSelf: 'center', borderColor: colors.primary, borderWidth:3, borderRadius:5, height: 50, flexDirection:'row'}}>
-                            <View style={{flex: 1, justifyContent: 'center', alignItems: 'center' }} ><Text style={[styles.headerText,{textAlign:'center', marginTop: 0}]}>{teamOneScoreChange > 0 ? '+' : ''}{teamOneScoreChange}</Text></View>
-                            <View style={{flex: 1, justifyContent: 'center', alignItems: 'center' }} ><Text style={[styles.headerText,{textAlign:'center', marginTop: 0}]}>{teamTwoScoreChange > 0 ? '+' : ''}{teamTwoScoreChange}</Text></View>
+                        <View style={[styles.scoreChangeSection, getScoreChangeSectionBorder()]}>
+                            <View style={styles.scoreChangeInner} ><Text style={[styles.headerText,{textAlign:'center', marginTop: 0}, getScoreColor(teamOneScoreChange)]}>{getScoreIndicator(teamOneScoreChange)}{teamOneScoreChange}</Text></View>
+                            <View style={styles.scoreChangeInner} ><Text style={[styles.headerText,{textAlign:'center', marginTop: 0}, getScoreColor(teamTwoScoreChange)]}>{getScoreIndicator(teamTwoScoreChange)}{teamTwoScoreChange}</Text></View>
                         </View>                
                     </>
                 }

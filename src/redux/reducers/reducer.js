@@ -5,8 +5,8 @@ import {addHand, deleteHand, setActiveHand } from './handReducer'
 
 const initialState = {
     Games: [],
-    MaxGameId:0,
-    CurrentGameId: 0
+    MaxGameId:-1,
+    CurrentGameId: -1
   };
   
   const reducer = (state = initialState, action) => {

@@ -1,5 +1,23 @@
 import { suits, bets, baseScore } from '../constants/game';
 
+export const calculateRunningScore = (game, teamOneHandScore, teamTwoHandScore) => {
+
+  let teamOneRunningScore =0, teamTwoRunningScore = 0, previousTeamOneHand =0, previousTeamTwoHand = 0;
+  
+  if (game.Hands.length > 0) {
+
+    const previousHand = game.Hands[game.MaxHandId];
+
+    previousTeamOneHand = previousHand?.RunningTeamOneScore;
+    previousTeamTwoHand = previousHand?.RunningTeamTwoScore;
+  }
+  teamOneRunningScore = previousTeamOneHand + teamOneHandScore;
+  teamTwoRunningScore = previousTeamTwoHand + teamTwoHandScore;
+   
+  return {teamOneRunningScore, teamTwoRunningScore};
+    
+}
+
 
 export const calculatePotentialScore = (Bet, BetAmount) => {
     let betterHandScore = 0;
