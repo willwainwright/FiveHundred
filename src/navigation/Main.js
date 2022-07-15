@@ -8,7 +8,7 @@ import { Games } from '../screens/Games';
 import { Hands } from '../screens/Hands';
 import { NewGame } from '../screens/NewGame';
 import { NewHand } from '../screens/NewHand';
-import { TextDemo, ButtonDemo, FormDemo } from '../screens/Demos';
+// import { TextDemo, ButtonDemo, FormDemo } from '../screens/Demos';
 import colors from '../constants/colors';
 
 const Tab = createBottomTabNavigator();
@@ -90,17 +90,17 @@ export const Main = () => (
     /> 
     <Tab.Screen
       name="High scores"
-      component={TextDemo}
+      component={StackNav}
       options={{ headerTitle: 'Text Demo', headerShown: false }}
     />
     <Tab.Screen
       name="Help"
-      component={FormDemo}
+      component={StackNav}
       options={{ headerTitle: 'Help' }}
     />
     <Tab.Screen
       name="Settings"
-      component={ButtonDemo}
+      component={StackNav}
       options={{ headerTitle: 'Button Demo' }}
     />
   </Tab.Navigator>

@@ -2,12 +2,12 @@ import React from 'react';
 import { View, StyleSheet, FlatList, Image } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux'
 
-import colors from '../constants/colors';
-import { GameListItem } from '../components/Games/GameListItem';
-import { ListSeparator } from '../components/ListItem';
-import { EmptyList } from '../components/EmptyList'
-import { FloatingButton } from '../components/FloatingButton';
-import { deleteGame, setActiveGame } from '../redux/actions/games';
+import colors from '../../constants/colors';
+import { GameListItem } from './GameListItem';
+import { ListSeparator } from '../../components/ListItem';
+import { EmptyList } from '../../components/EmptyList'
+import { FloatingButton } from '../../components/FloatingButton';
+import { deleteGame, setActiveGame } from '../../redux/actions/games';
 import { useNavigation } from '@react-navigation/native';
 
 export const Games = (props) => {  

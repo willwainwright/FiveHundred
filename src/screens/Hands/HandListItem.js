@@ -1,9 +1,9 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 
-import { Text } from '../Text';
+import { Text } from '../../components/Text';
 import colors from '../../constants/colors';
-import {ListItem} from '../ListItem';
+import {ListItem} from '../../components/ListItem';
 
 const styles = StyleSheet.create({
   rowContainer: {
