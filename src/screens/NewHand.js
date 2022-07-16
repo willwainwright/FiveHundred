@@ -30,7 +30,7 @@ export function NewHand () {
     const navigation = useNavigation();
 
     const getCurrentGame = (CurrentGameId, Games) => {
-        const game =  Games.find(x => x.GameId === CurrentGameId);
+        const game =  Games[CurrentGameId];
         return game;
     }
 
@@ -101,9 +101,10 @@ export function NewHand () {
         },        
         sectionContainer: {
             flex: 1,
+            margin:0
         },
         titleText: {
-            fontSize: 30,
+            fontSize: 25,
             fontWeight: '700',
             textAlign: "center"
         },
@@ -136,6 +137,7 @@ export function NewHand () {
         buttonGroupContainer: {
             borderRadius: 10,
             marginBottom: 0,
+            height:40
         },
         scoreChangeSection: {
             backgroundColor:colors.white, 
@@ -180,9 +182,7 @@ export function NewHand () {
     }
 
     const getScoreChangeSectionBorder = () => {
-
         const scoreChange = team ===1 ? teamOneScoreChange : teamTwoScoreChange;
-
         if (scoreChange < 0) {
             return { borderColor: colors.red }; 
         }
@@ -196,7 +196,7 @@ export function NewHand () {
 
     return (
         <View style={styles.container}>
-            <View style={[styles.sectionContainer, {}]}>
+            <View style={[styles.sectionContainer]}>
                 <Text style={[styles.titleText, {marginVertical:0}]}>Bet</Text>
                 <Text style={[styles.headerText, {marginTop:0}]}>Select team</Text>
                 <ButtonGroup
@@ -211,25 +211,24 @@ export function NewHand () {
                     buttons={["6", "7", "8", "9", "10"]}
                     selectedIndex={numberOfTricksBet}
                     onPress={handleNumberOfTricksBetButtonGroup}
-                    containerStyle={[styles.buttonGroupContainer, {height:60, padding:0, margin:0}]}
+                    containerStyle={[styles.buttonGroupContainer]}
                     selectedButtonStyle={styles.buttonGroupSelected}
                     />   
                 <ButtonGroup
                     buttons={[{ element: cmp_spades }, { element: cmp_clubs }, { element: cmp_diamonds }, { element: cmp_hearts }, { element: cmp_notrumps }]}
                     selectedIndex={suitSelectorIndex}
                     onPress={handleSuitButtonGroup}
-                    containerStyle={[styles.buttonGroupContainer, {height:60, padding:0, margin:0}]}
+                    containerStyle={[styles.buttonGroupContainer]}
                     selectedButtonStyle={styles.buttonGroupSelected}
-                    />                
-                <View
-                    style={{
-                        marginTop: 15,
-                        marginBottom: 5,
-                        borderBottomColor: 'black',
-                        borderBottomWidth: StyleSheet.hairlineWidth,
-                    }}
-                    />   
-                <Text style={[styles.titleText]}>Result</Text>
+                    />           
+                    <ButtonGroup
+                        buttons={["Misère", "Open Misère" , "Blind Misère"]}
+                        selectedIndex={numberOfTricksBet}
+                        onPress={handleNumberOfTricksBetButtonGroup}
+                        containerStyle={[styles.buttonGroupContainer]}
+                        selectedButtonStyle={styles.buttonGroupSelected}
+                        /> 
+                <Text style={[styles.titleText, {marginTop:5}]}>Result</Text>
                 <Text style={[styles.headerText, {marginTop:0, marginBottom:0}]}>Tricks won</Text>
                 <Text style={[styles.headerText, {textAlign:'center', marginVertical:0}]}>{numberOfTricksWon}</Text>
                 <Slider

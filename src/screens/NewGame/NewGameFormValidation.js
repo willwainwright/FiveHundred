@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const newGameFormValidation = () => {
+export const NewGameFormValidation = () => {
   const [teamOne, setTeamOne] = React.useState('');
   const [teamTwo, setTeamTwo] = React.useState('');
   const [errors, setErrors] = React.useState({});
