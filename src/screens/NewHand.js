@@ -7,19 +7,17 @@ import { ButtonGroup } from '@rneui/themed';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import colors from '../constants/colors';
-import { suits, bets } from '../constants/game';
 import { calculateHandScore } from '../util/scoreCalculator';
-import { addHand, setActiveHand } from '../redux/actions/hands';
+import { addHand } from '../redux/handsSlice';
 
 export function NewHand() {
-  const [team, setTeam] = React.useState(-1);
-  const [numberOfTricksBet, setNumberOfTricksBet] = React.useState(6);
-  const [numberOfTricksWon, setNumberOfTricksWon] = React.useState(0);
-  const [suit, setSuit] = React.useState(-1);
-  const [nextButtonDisabled, setNextButtonDisabled] = React.useState(true);
-  const [showNextButtonTooltip, setShowNextButtonTooltip] =
-    React.useState(false);
-  const [showScoreChange, setShowScoreChange] = React.useState(false);
+  const [team, setTeam] = useState(-1);
+  const [numberOfTricksBet, setNumberOfTricksBet] = useState(6);
+  const [numberOfTricksWon, setNumberOfTricksWon] = useState(0);
+  const [suit, setSuit] = useState(-1);
+  const [nextButtonDisabled, setNextButtonDisabled] = useState(true);
+  const [showNextButtonTooltip, setShowNextButtonTooltip] = useState(false);
+  const [showScoreChange, setShowScoreChange] = useState(false);
   const [teamSelectorIndex, setTeamSelectorIndex] = useState(-1);
   const [suitSelectorIndex, setSuitSelectorIndex] = useState(-1);
   const [teamOneScoreChange, setTeamOneScoreChange] = useState(-1);
@@ -29,15 +27,9 @@ export function NewHand() {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
-  const getCurrentGame = (CurrentGameId, Games) => {
-    const game = Games[CurrentGameId];
-    return game;
-  };
-
-  const game = getCurrentGame(
-    useSelector(state => state.CurrentGameId),
-    useSelector(state => state.Games),
-  );
+  const CurrentGameId = useSelector(state => state.games.activeGameId);
+  const game = useSelector(state => state.games.games_list[CurrentGameId]);
+  const nextHandId = useSelector(state => state.hands.hands_list.length);
 
   const handlenumberOfTricksWonSlider = value => {
     setTricksChanged(true);
@@ -55,6 +47,8 @@ export function NewHand() {
   const handleNextButtonOnPress = () => {
     const now = new Date();
     const hand = {
+      GameId: CurrentGameId,
+      HandId: nextHandId,
       DateEntered: now.toISOString(),
       BettingTeam: team,
       Bet: suit,
@@ -70,12 +64,7 @@ export function NewHand() {
   useEffect(() => {
     const betPlaced = team != -1 && suit != -1 && tricksChanged != false;
 
-    const { teamOneScoreChange, teamTwoScoreChange } = calculateHandScore(
-      suit,
-      numberOfTricksWon,
-      numberOfTricksBet + 6,
-      team,
-    );
+    const { teamOneScoreChange, teamTwoScoreChange } = calculateHandScore(suit, numberOfTricksWon, numberOfTricksBet + 6, team);
 
     setTeamOneScoreChange(teamOneScoreChange);
     setTeamTwoScoreChange(teamTwoScoreChange);
@@ -86,25 +75,15 @@ export function NewHand() {
   const getImageSource = suitSelected => {
     switch (suitSelected) {
       case 'SPADES':
-        return 1 === suit
-          ? require('../../assets/suits/spades-outline.png')
-          : require('../../assets/suits/spades.png');
+        return 1 === suit ? require('../../assets/suits/spades-outline.png') : require('../../assets/suits/spades.png');
       case 'CLUBS':
-        return 2 === suit
-          ? require('../../assets/suits/clubs-outline.png')
-          : require('../../assets/suits/clubs.png');
+        return 2 === suit ? require('../../assets/suits/clubs-outline.png') : require('../../assets/suits/clubs.png');
       case 'DIAMONDS':
-        return 3 === suit
-          ? require('../../assets/suits/diamonds-outline.png')
-          : require('../../assets/suits/diamonds.png');
+        return 3 === suit ? require('../../assets/suits/diamonds-outline.png') : require('../../assets/suits/diamonds.png');
       case 'HEARTS':
-        return 4 === suit
-          ? require('../../assets/suits/hearts-outline.png')
-          : require('../../assets/suits/hearts.png');
+        return 4 === suit ? require('../../assets/suits/hearts-outline.png') : require('../../assets/suits/hearts.png');
       case 'NO_TRUMPS':
-        return 5 === suit
-          ? require('../../assets/suits/no_trumps-outline.png')
-          : require('../../assets/suits/no_trumps.png');
+        return 5 === suit ? require('../../assets/suits/no_trumps-outline.png') : require('../../assets/suits/no_trumps.png');
     }
   };
 
@@ -173,21 +152,11 @@ export function NewHand() {
     },
   });
 
-  const cmp_spades = () => (
-    <Image source={getImageSource('SPADES')} style={styles.suitImageStyle} />
-  );
-  const cmp_clubs = () => (
-    <Image source={getImageSource('CLUBS')} style={styles.suitImageStyle} />
-  );
-  const cmp_diamonds = () => (
-    <Image source={getImageSource('DIAMONDS')} style={styles.suitImageStyle} />
-  );
-  const cmp_hearts = () => (
-    <Image source={getImageSource('HEARTS')} style={styles.suitImageStyle} />
-  );
-  const cmp_notrumps = () => (
-    <Image source={getImageSource('NO_TRUMPS')} style={styles.suitImageStyle} />
-  );
+  const cmp_spades = () => <Image source={getImageSource('SPADES')} style={styles.suitImageStyle} />;
+  const cmp_clubs = () => <Image source={getImageSource('CLUBS')} style={styles.suitImageStyle} />;
+  const cmp_diamonds = () => <Image source={getImageSource('DIAMONDS')} style={styles.suitImageStyle} />;
+  const cmp_hearts = () => <Image source={getImageSource('HEARTS')} style={styles.suitImageStyle} />;
+  const cmp_notrumps = () => <Image source={getImageSource('NO_TRUMPS')} style={styles.suitImageStyle} />;
 
   const handleTeamButtonGroup = value => {
     setTeam(value + 1);
@@ -242,13 +211,7 @@ export function NewHand() {
           selectedButtonStyle={styles.buttonGroupSelected}
         />
         <ButtonGroup
-          buttons={[
-            { element: cmp_spades },
-            { element: cmp_clubs },
-            { element: cmp_diamonds },
-            { element: cmp_hearts },
-            { element: cmp_notrumps },
-          ]}
+          buttons={[{ element: cmp_spades }, { element: cmp_clubs }, { element: cmp_diamonds }, { element: cmp_hearts }, { element: cmp_notrumps }]}
           selectedIndex={suitSelectorIndex}
           onPress={handleSuitButtonGroup}
           containerStyle={[styles.buttonGroupContainer]}
@@ -262,17 +225,8 @@ export function NewHand() {
           selectedButtonStyle={styles.buttonGroupSelected}
         />
         <Text style={[styles.titleText, { marginTop: 5 }]}>Result</Text>
-        <Text style={[styles.headerText, { marginTop: 0, marginBottom: 0 }]}>
-          Tricks won
-        </Text>
-        <Text
-          style={[
-            styles.headerText,
-            { textAlign: 'center', marginVertical: 0 },
-          ]}
-        >
-          {numberOfTricksWon}
-        </Text>
+        <Text style={[styles.headerText, { marginTop: 0, marginBottom: 0 }]}>Tricks won</Text>
+        <Text style={[styles.headerText, { textAlign: 'center', marginVertical: 0 }]}>{numberOfTricksWon}</Text>
         <Slider
           style={{ width: '85%', alignSelf: 'center' }}
           minimumValue={0}
@@ -285,34 +239,18 @@ export function NewHand() {
           thumbTintColor={colors.primary}
           value={numberOfTricksWon}
         />
-        <Text style={[styles.headerText, { marginVertical: 20 }]}>
-          Score change
-        </Text>
+        <Text style={[styles.headerText, { marginVertical: 20 }]}>Score change</Text>
         {showScoreChange && (
           <>
-            <View
-              style={[styles.scoreChangeSection, getScoreChangeSectionBorder()]}
-            >
+            <View style={[styles.scoreChangeSection, getScoreChangeSectionBorder()]}>
               <View style={styles.scoreChangeInner}>
-                <Text
-                  style={[
-                    styles.headerText,
-                    { textAlign: 'center', marginTop: 0 },
-                    getScoreColor(teamOneScoreChange),
-                  ]}
-                >
+                <Text style={[styles.headerText, { textAlign: 'center', marginTop: 0 }, getScoreColor(teamOneScoreChange)]}>
                   {getScoreIndicator(teamOneScoreChange)}
                   {teamOneScoreChange}
                 </Text>
               </View>
               <View style={styles.scoreChangeInner}>
-                <Text
-                  style={[
-                    styles.headerText,
-                    { textAlign: 'center', marginTop: 0 },
-                    getScoreColor(teamTwoScoreChange),
-                  ]}
-                >
+                <Text style={[styles.headerText, { textAlign: 'center', marginTop: 0 }, getScoreColor(teamTwoScoreChange)]}>
                   {getScoreIndicator(teamTwoScoreChange)}
                   {teamTwoScoreChange}
                 </Text>
@@ -321,18 +259,8 @@ export function NewHand() {
           </>
         )}
         <View style={[styles.sectionContainer, styles.bottomButtons]}>
-          <TouchableOpacity
-            disabled={nextButtonDisabled}
-            onPressIn={handleOnNextButtonOnPressIn}
-            onPressOut={handleOnNextButtonOnPressOut}
-            onPress={handleNextButtonOnPress}
-          >
-            <Ionicons
-              name="ios-arrow-forward-circle-sharp"
-              color={nextButtonDisabled ? colors.gray : colors.primary}
-              size={60}
-              style={{ paddingLeft: 10 }}
-            />
+          <TouchableOpacity disabled={nextButtonDisabled} onPressIn={handleOnNextButtonOnPressIn} onPressOut={handleOnNextButtonOnPressOut} onPress={handleNextButtonOnPress}>
+            <Ionicons name="ios-arrow-forward-circle-sharp" color={nextButtonDisabled ? colors.gray : colors.primary} size={60} style={{ paddingLeft: 10 }} />
           </TouchableOpacity>
           {/* <Ionicons name={'md-stats-chart-sharp'} 
                                 color={colors.primary} 

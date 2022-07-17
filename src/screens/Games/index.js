@@ -1,16 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, StyleSheet, FlatList, Image } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
 
 import colors from '../../constants/colors';
 import { GameListItem } from './GameListItem';
 import { ListSeparator } from '../../components/ListItem';
 import { EmptyList } from '../../components/EmptyList';
 import { FloatingButton } from '../../components/FloatingButton';
-import { useNavigation } from '@react-navigation/native';
+
+import { setActiveGame, deleteGame } from '../../redux/gamesSlice';
 
 export const Games = props => {
-  const Games = useSelector(state => state.games);
+  const Games = useSelector(state => state.games.games_list);
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
@@ -20,6 +22,11 @@ export const Games = props => {
       backgroundColor: colors.background,
     },
   });
+
+  useEffect(() => {
+    // dispatch(getHandsByGame([0]));
+    dispatch(setActiveGame(0));
+  }, [Games]);
 
   const newGameButtonHandler = () => {
     navigation.navigate('NewGame');

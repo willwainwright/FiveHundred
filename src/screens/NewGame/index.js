@@ -5,12 +5,11 @@ import { useNavigation } from '@react-navigation/native';
 import { NewGameFormValidation } from './NewGameFormValidation';
 import { Button } from '../../components/Button';
 import { TextInput } from '../../components/Form';
-import { addGame } from '../../redux/gameSlice';
+import { addGame } from '../../redux/gamesSlice';
 import colors from '../../constants/colors';
 
 export function NewGame(props) {
-  const { submit, errors, teamOne, setTeamOne, teamTwo, setTeamTwo } =
-    NewGameFormValidation();
+  const { submit, errors, teamOne, setTeamOne, teamTwo, setTeamTwo } = NewGameFormValidation();
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
@@ -47,13 +46,7 @@ export function NewGame(props) {
         keyboardType="email-address"
         autoCapitalize="none"
       />
-      <TextInput
-        label="Team Two"
-        placeholder="Enter name for team two?"
-        value={teamTwo}
-        onChangeText={text => setTeamTwo(text)}
-        errorText={errors.teamTwo}
-      />
+      <TextInput label="Team Two" placeholder="Enter name for team two?" value={teamTwo} onChangeText={text => setTeamTwo(text)} errorText={errors.teamTwo} />
       <Button onPress={() => submit(onSuccess)}>Next</Button>
     </View>
   );

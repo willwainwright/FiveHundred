@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { View, StyleSheet, FlatList, Image } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
 
 import colors from '../../constants/colors';
 import { HandListItem } from './HandListItem';
@@ -8,22 +9,28 @@ import { HandsHeader } from './HandsHeader';
 import { ListSeparator } from '../../components/ListItem';
 import { EmptyList } from '../../components/EmptyList';
 import { FloatingButton } from '../../components/FloatingButton';
-import { useNavigation } from '@react-navigation/native';
+import { getHandsByGame } from '../../redux/handsSlice';
 
 export const Hands = () => {
-  const [completedGame, setCompletedGame] = React.useState(false);
-
-  const CurrentGameId = useSelector(state => state.game.currentGameId);
-  const game = useSelector(state => state.game.games_list[CurrentGameId]);
-
   const dispatch = useDispatch();
   const navigation = useNavigation();
+
+  const [completedGame, setCompletedGame] = React.useState(false);
+  const CurrentGameId = useSelector(state => state.games.activeGameId);
+  const game = useSelector(state => state.games.games_list[CurrentGameId]);
+  const hands = useSelector(state => state.hands.active_game_hands);
+  const stet = useSelector(state => state.hands);
 
   useEffect(() => {
     if (game?.ScoreOne >= 500 || game?.ScoreTwo >= 500) {
       setCompletedGame(true);
     }
   }, []);
+
+  useEffect(() => {
+    dispatch(getHandsByGame(game.Hands));
+    console.log(stet)
+  }, [CurrentGameId]);
 
   const styles = StyleSheet.create({
     container: {
@@ -49,7 +56,7 @@ export const Hands = () => {
   });
 
   const newHandButtonHandler = gameId => {
-    navigation.navigate('NewHand', { game });
+    navigation.navigate('NewHand');
   };
 
   const deleteHandHandler = index => {
@@ -63,7 +70,7 @@ export const Hands = () => {
       <FlatList
         style={styles.container}
         contentContainerStyle={{ flex: 1 }}
-        data={game?.Hands}
+        data={hands}
         ListEmptyComponent={EmptyList('Tap the + button to start a new hand')}
         keyExtractor={item => item.HandId}
         renderItem={({ item, index }) => (
