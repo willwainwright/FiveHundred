@@ -6,5 +6,5 @@ export default {
   background: '#eef0f3',
   error: '#b55464',
   black: '#36454F',
-  red: '#FF382C'
+  red: '#FF382C',
 };

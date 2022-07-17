@@ -14,29 +14,19 @@ import colors from '../constants/colors';
 const Tab = createBottomTabNavigator();
 
 const getIcon = (route, focused) => {
-  switch(route) {
+  switch (route) {
     case 'Games':
-     return focused
-        ? 'md-home-sharp'
-        : 'md-home-outline';
+      return focused ? 'md-home-sharp' : 'md-home-outline';
     case 'High scores':
-      return focused
-        ? 'md-stats-chart-sharp'
-        : 'md-stats-chart-outline';
+      return focused ? 'md-stats-chart-sharp' : 'md-stats-chart-outline';
     case 'Help':
-      return focused
-        ? 'md-help-circle'
-        : 'md-help-circle-outline';
+      return focused ? 'md-help-circle' : 'md-help-circle-outline';
     case 'Settings':
-      return focused
-        ? 'md-settings-sharp'
-        : 'md-settings-outline';
+      return focused ? 'md-settings-sharp' : 'md-settings-outline';
     default:
-      return focused
-        ? 'md-home-sharp'
-        : 'md-home-outline';
+      return focused ? 'md-home-sharp' : 'md-home-outline';
   }
-}
+};
 
 const Stack = createStackNavigator();
 
@@ -44,50 +34,57 @@ const StackNav = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
-          name="Games"
-          component={Games}
-          // component={NewHand}
+        name="Games"
+        component={Games}
+        // component={NewHand}
       />
-      <Stack.Screen 
-          name="NewGame" 
-          component={NewGame}
-          options={{ headerTitle: 'Create new game' }}
+      <Stack.Screen
+        name="NewGame"
+        component={NewGame}
+        options={{ headerTitle: 'Create new game' }}
       />
-      <Stack.Screen 
-          name="Hands" 
-          component={Hands}
-          options={({navigation, route}) => ({
-            headerLeft: (props) => (
-              <HeaderBackButton
-                {...props}
-                onPress={() => navigation.navigate('Games')}
-              />
-            ),
-       })}
+      <Stack.Screen
+        name="Hands"
+        component={Hands}
+        options={({ navigation, route }) => ({
+          headerLeft: props => (
+            <HeaderBackButton
+              {...props}
+              onPress={() => navigation.navigate('Games')}
+            />
+          ),
+        })}
       />
-      <Stack.Screen 
-          name="NewHand" 
-          component={NewHand}
-          options={{ headerTitle: 'Enter bet' }}
+      <Stack.Screen
+        name="NewHand"
+        component={NewHand}
+        options={{ headerTitle: 'Enter bet' }}
       />
     </Stack.Navigator>
-  )
+  );
 };
 
 export const Main = () => (
-  <Tab.Navigator 
-  screenOptions={({ route }) => ({
-    tabBarIcon: ({ focused, color, size }) => {      
-      return <Ionicons name={getIcon(route.name, focused)} size={size} color={color} />;
-    },
-    tabBarActiveTintColor: colors.primary,
-    tabBarInactiveTintColor: 'gray',
-  })}>
-    <Tab.Screen 
-      name="Home" 
-      component={StackNav} 
+  <Tab.Navigator
+    screenOptions={({ route }) => ({
+      tabBarIcon: ({ focused, color, size }) => {
+        return (
+          <Ionicons
+            name={getIcon(route.name, focused)}
+            size={size}
+            color={color}
+          />
+        );
+      },
+      tabBarActiveTintColor: colors.primary,
+      tabBarInactiveTintColor: 'gray',
+    })}
+  >
+    <Tab.Screen
+      name="Home"
+      component={StackNav}
       options={{ headerTitle: 'Text Demo', headerShown: false }}
-    /> 
+    />
     <Tab.Screen
       name="High scores"
       component={StackNav}

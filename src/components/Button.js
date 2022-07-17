@@ -28,8 +28,13 @@ const styles = StyleSheet.create({
   },
 });
 
-export const Button = (props) => {
-  const { onPress = () => {}, children = '', type, containerStylesOverride } = props;
+export const Button = props => {
+  const {
+    onPress = () => {},
+    children = '',
+    type,
+    containerStylesOverride,
+  } = props;
   const containerStyles = [styles.container];
   const textStyles = [styles.text];
 

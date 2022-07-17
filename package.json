@@ -10,7 +10,8 @@
     "eject": "expo eject",
     "lint": "eslint .",
     "format": "prettier --write '**/*.js'",
-    "test": "jest"
+    "test": "jest",
+    "pretty": "prettier --write \"./**/*.{js,jsx}\"" 
   },
   "dependencies": {
     "@react-native-community/slider": "4.2.1",
