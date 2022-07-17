@@ -1,12 +1,11 @@
 import { View, StyleSheet } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux'
-import { addGame } from '../../redux/actions/games';
 import { useNavigation } from '@react-navigation/native';
 
 import { NewGameFormValidation } from './NewGameFormValidation';
 import { Button } from '../../components/Button';
 import { TextInput } from '../../components/Form';
-
+import { addGame } from '../../redux/gameSlice';
 import colors from '../../constants/colors';
 
 export function NewGame (props) {

@@ -13,8 +13,9 @@ import { useNavigation } from '@react-navigation/native';
 export const Hands = () => {
   const [completedGame, setCompletedGame] = React.useState(false);
   
-  const CurrentGameId = useSelector(state => state.CurrentGameId)
-  const game = useSelector(state => state.Games[CurrentGameId]);
+  const CurrentGameId = useSelector((state) => state.game.currentGameId);
+  const game = useSelector((state) => state.game.games_list[CurrentGameId]);
+  
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
