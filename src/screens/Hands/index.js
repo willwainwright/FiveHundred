@@ -9,7 +9,7 @@ import { HandsHeader } from './HandsHeader';
 import { ListSeparator } from '../../components/ListItem';
 import { EmptyList } from '../../components/EmptyList';
 import { FloatingButton } from '../../components/FloatingButton';
-import { getHandsByGame } from '../../redux/handsSlice';
+import { deleteHand } from '../../redux/gamesSlice';
 
 export const Hands = () => {
   const dispatch = useDispatch();
@@ -17,9 +17,8 @@ export const Hands = () => {
 
   const [completedGame, setCompletedGame] = React.useState(false);
   const CurrentGameId = useSelector(state => state.games.activeGameId);
-  const game = useSelector(state => state.games.games_list[CurrentGameId]);
-  const hands = useSelector(state => state.hands.active_game_hands);
-  const stet = useSelector(state => state.hands);
+  const game = useSelector(state => state.games.gamesList[CurrentGameId]);
+  const hands = useSelector(state => state.games.activeHandsList);
 
   useEffect(() => {
     if (game?.ScoreOne >= 500 || game?.ScoreTwo >= 500) {
@@ -27,11 +26,7 @@ export const Hands = () => {
     }
   }, []);
 
-  useEffect(() => {
-    dispatch(getHandsByGame(game.Hands));
-    console.log(stet)
-  }, [CurrentGameId]);
-
+  
   const styles = StyleSheet.create({
     container: {
       flex: 1,
@@ -60,8 +55,9 @@ export const Hands = () => {
   };
 
   const deleteHandHandler = index => {
-    // dispatch(deleteGame(index));
-    alert('Delete Hand');
+    console.log('deleteId:',index);
+    dispatch(deleteHand(index));
+    // alert('Delete Hand');
   };
 
   return (
@@ -77,7 +73,7 @@ export const Hands = () => {
           <HandListItem
             hand={item}
             game={game}
-            onDelete={() => deleteHandHandler(index)}
+            onDelete={() => deleteHandHandler(item.HandId)}
             onPress={() => alert('Edit hand: ' + item.HandId)}
           />
         )}

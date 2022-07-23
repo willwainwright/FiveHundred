@@ -12,7 +12,7 @@ import { FloatingButton } from '../../components/FloatingButton';
 import { setActiveGame, deleteGame } from '../../redux/gamesSlice';
 
 export const Games = props => {
-  const Games = useSelector(state => state.games.games_list);
+  const Games = useSelector(state => state.games.gamesList);
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
@@ -23,10 +23,10 @@ export const Games = props => {
     },
   });
 
-  useEffect(() => {
-    // dispatch(getHandsByGame([0]));
-    dispatch(setActiveGame(0));
-  }, [Games]);
+  // useEffect(() => {
+  //   // dispatch(getHandsByGame([0]));
+  //   dispatch(setActiveGame(0));
+  // }, [Games]);
 
   const newGameButtonHandler = () => {
     navigation.navigate('NewGame');
@@ -52,7 +52,7 @@ export const Games = props => {
         renderItem={({ item, index }) => (
           <GameListItem
             game={item}
-            onDelete={() => deleteGameHandler(index)}
+            onDelete={() => deleteGameHandler(item.GameId)}
             onPress={() => openGameHandler(item.GameId)}
           />
         )}

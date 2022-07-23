@@ -18,7 +18,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   titleText: {
-    // fontWeight: 'bold',
     fontSize: 30,
   },
   verticleLine: {
@@ -42,9 +41,9 @@ export const HandListItem = props => {
   return (
     <ListItem onPress={onPress} onDelete={onDelete}>
       <View style={styles.rowContainer}>
-        {teamContainer(hand.RunningTeamOneScore)}
+        {teamContainer(hand.TeamOneRunningScore)}
         <View style={styles.verticleLine}></View>
-        {teamContainer(hand.RunningTeamTwoScore)}
+        {teamContainer(hand.TeamTwoRunningScore)}
       </View>
     </ListItem>
   );

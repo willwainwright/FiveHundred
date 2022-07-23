@@ -8,7 +8,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import colors from '../constants/colors';
 import { calculateHandScore } from '../util/scoreCalculator';
-import { addHand } from '../redux/handsSlice';
+import { addHand } from '../redux/gamesSlice';
 
 export function NewHand() {
   const [team, setTeam] = useState(-1);
@@ -28,8 +28,7 @@ export function NewHand() {
   const navigation = useNavigation();
 
   const CurrentGameId = useSelector(state => state.games.activeGameId);
-  const game = useSelector(state => state.games.games_list[CurrentGameId]);
-  const nextHandId = useSelector(state => state.hands.hands_list.length);
+  const game = useSelector(state => state.games.gamesList[CurrentGameId]);
 
   const handlenumberOfTricksWonSlider = value => {
     setTricksChanged(true);
@@ -48,7 +47,6 @@ export function NewHand() {
     const now = new Date();
     const hand = {
       GameId: CurrentGameId,
-      HandId: nextHandId,
       DateEntered: now.toISOString(),
       BettingTeam: team,
       Bet: suit,

@@ -1,25 +1,21 @@
 import { suits, bets, baseScore } from '../constants/game';
 
-export const calculateRunningScore = (
-  game,
-  teamOneHandScore,
-  teamTwoHandScore,
-) => {
-  let teamOneRunningScore = 0,
-    teamTwoRunningScore = 0,
-    previousTeamOneHand = 0,
-    previousTeamTwoHand = 0;
+export const calculateRunningScore = (hands) => {
+  let handsCopy = [...hands];
 
-  if (game.Hands.length > 0) {
-    const previousHand = game.Hands[game.MaxHandId];
-
-    previousTeamOneHand = previousHand?.RunningTeamOneScore;
-    previousTeamTwoHand = previousHand?.RunningTeamTwoScore;
+  if(hands.length ===0) {
+    return hands;
   }
-  teamOneRunningScore = previousTeamOneHand + teamOneHandScore;
-  teamTwoRunningScore = previousTeamTwoHand + teamTwoHandScore;
 
-  return { teamOneRunningScore, teamTwoRunningScore };
+  let teamOneRunningScore = 0,
+    teamTwoRunningScore = 0
+
+    
+  let final = handsCopy.map(v => {v.RunningTeamOneScore =(teamOneRunningScore += v.TeamOneScore), v.RunningTeamTwoScore =(teamTwoRunningScore += v.TeamTwoScore); return v});
+
+  // console.log('final:', final);
+  return final
+    
 };
 
 export const calculatePotentialScore = (Bet, BetAmount) => {
@@ -63,10 +59,8 @@ export const calculateHandScore = (Bet, TricksWon, TricksBet, BettingTeam) => {
     betterHandScore = betterHandScore * -1;
   }
 
-  const teamOneScoreChange =
-    BettingTeam === 1 ? betterHandScore : defenderHandScore;
-  const teamTwoScoreChange =
-    BettingTeam === 2 ? betterHandScore : defenderHandScore;
+  const teamOneScoreChange = BettingTeam === 1 ? betterHandScore : defenderHandScore;
+  const teamTwoScoreChange = BettingTeam === 2 ? betterHandScore : defenderHandScore;
 
   return { teamOneScoreChange, teamTwoScoreChange };
 };
