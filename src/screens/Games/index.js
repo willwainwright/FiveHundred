@@ -9,7 +9,7 @@ import { ListSeparator } from 'components/ListItem';
 import { EmptyList } from 'components/EmptyList';
 import { FloatingButton } from 'components/FloatingButton';
 
-import { setActiveGame, deleteGame } from 'redux/gamesSlice';
+import { setActiveGame, deleteGame } from 'state/gamesSlice';
 
 export const Games = props => {
   const Games = useSelector(state => state.games.gamesList);

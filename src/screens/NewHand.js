@@ -9,7 +9,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import colors from 'constants/colors';
 import { betsV2 } from '../constants/game';
 import { calculateHandScore } from 'util/scoreCalculator';
-import { addHand } from 'redux/gamesSlice';
+import { addHand } from 'state/gamesSlice';
 
 export function NewHand() {
   const [team, setTeam] = useState(-1);

@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import { NewGameFormValidation } from './NewGameFormValidation';
 import { Button } from 'components/Button';
 import { TextInput } from 'components/Form';
-import { addGame } from 'redux/gamesSlice';
+import { addGame } from 'state/gamesSlice';
 import colors from 'constants/colors';
 
 export function NewGame(props) {

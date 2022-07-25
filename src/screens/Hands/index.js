@@ -9,7 +9,7 @@ import { HandsHeader } from './HandsHeader';
 import { ListSeparator } from 'components/ListItem';
 import { EmptyList } from 'components/EmptyList';
 import { FloatingButton } from 'components/FloatingButton';
-import { deleteHand } from 'redux/gamesSlice';
+import { deleteHand } from 'state/gamesSlice';
 
 export const Hands = () => {
   const dispatch = useDispatch();
