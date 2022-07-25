@@ -20,6 +20,102 @@ export const suits = {
   5: 'No trumps',
 };
 
+export const pointsSystem = {
+  original: 'Original',
+  avondale: 'avondale',
+  perfect: 'Perfect',
+};
+
+export const betsV2 = {
+  SPADES: {
+    Id: 0,
+    Title: 'Spades',
+    Value: { original: 40 , avondale: 40 , perfect: 20 },
+    SpecialBet: false,
+    MisereBet: false,
+    imageSource: require('../../assets/suits/spades.png'),
+    imageSourceOutline: require('../../assets/suits/spades-outline.png'),
+
+  },
+  CLUBS: {
+    Id: 1,
+    Title: 'Clubs',
+    Value: { original: 80 , avondale: 60 , perfect: 40 },
+    SpecialBet: false,
+    MisereBet: false,
+    imageSource: require('../../assets/suits/clubs.png'),
+    imageSourceOutline: require('../../assets/suits/clubs-outline.png'),
+  },
+  DIAMONDS: {
+    Id: 2,
+    Title: 'Diamonds',
+    Value: { original: 120 , avondale: 80 , perfect: 60 },
+    SpecialBet: false,
+    MisereBet: false,
+    imageSource: require('../../assets/suits/diamonds.png'),
+    imageSourceOutline: require('../../assets/suits/diamonds-outline.png'),
+  },
+  HEARTS: {
+    Id: 3,
+    Title: 'Hearts',
+    Value: { original: 160 , avondale: 100 , perfect: 80 },
+    SpecialBet: false,
+    MisereBet: false,
+    imageSource: require('../../assets/suits/hearts.png'),
+    imageSourceOutline: require('../../assets/suits/hearts-outline.png'),
+  },
+  NO_TRUMPS: {
+    Id: 4,
+    Title: 'No trumps',
+    Value: { original: 200 , avondale: 120 , perfect: 100 },
+    SpecialBet: false,
+    MisereBet: false,
+    imageSource: require('../../assets/suits/no_trumps.png'),
+    imageSourceOutline: require('../../assets/suits/no_trumps-outline.png'),
+  },
+  MISERE: {
+    Id: 5,
+    Title: 'Misère',
+    Value: { original: 250 , avondale: 250 , perfect: 150 },
+    SpecialBet: true,
+    MisereBet: true,
+  },
+  OPEN_MISERE: {
+    Id: 6,
+    Title: 'Open Misère',
+    Value: { original: 500 , avondale: 500 , perfect: 250 },
+    SpecialBet: true,
+    MisereBet: true,
+  },
+  BLIND_MISERE: {
+    Id: 7,
+    Title: 'Blind Misère',
+    Value: { original: 1000 , avondale: 1000 , perfect: 1000 },
+    SpecialBet: true,
+    MisereBet: true,
+  },
+  HILO: {
+    Id: 8,
+    Title: 'Hi/Lo',
+    Value: { perfect: 350 },
+    SpecialBet: true,
+    MisereBet: false,
+  },
+  DOUBLE_MIS: {
+    Id: 9,
+    Title: 'Double Misère',
+    Value: { perfect: 450 },
+    SpecialBet: true,
+    MisereBet: true,
+  },
+  PATASTROPHE: {
+    Id: 10,
+    Title: 'Patastrophe',
+    Value: { perfect: 750 },
+    SpecialBet: true,
+    MisereBet: false,
+  },
+};
 // export const suits = ['SPADES', 'CLUBS','DIAMONDS','HEARTS', 'NO_TRUMPS']
 
 export const baseScore = {

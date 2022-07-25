@@ -6,23 +6,23 @@ import Slider from '@react-native-community/slider';
 import { ButtonGroup } from '@rneui/themed';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import colors from '../constants/colors';
-import { calculateHandScore } from '../util/scoreCalculator';
-import { addHand } from '../redux/gamesSlice';
+import colors from 'constants/colors';
+import { betsV2 } from '../constants/game';
+import { calculateHandScore } from 'util/scoreCalculator';
+import { addHand } from 'redux/gamesSlice';
 
 export function NewHand() {
   const [team, setTeam] = useState(-1);
   const [numberOfTricksBet, setNumberOfTricksBet] = useState(6);
   const [numberOfTricksWon, setNumberOfTricksWon] = useState(0);
-  const [suit, setSuit] = useState(-1);
+  const [bet, setBet] = useState({});
+  const [misereSelectorIndex, setMisereSelectorIndex] = useState(-1);
   const [nextButtonDisabled, setNextButtonDisabled] = useState(true);
-  const [showNextButtonTooltip, setShowNextButtonTooltip] = useState(false);
   const [showScoreChange, setShowScoreChange] = useState(false);
   const [teamSelectorIndex, setTeamSelectorIndex] = useState(-1);
   const [suitSelectorIndex, setSuitSelectorIndex] = useState(-1);
   const [teamOneScoreChange, setTeamOneScoreChange] = useState(-1);
   const [teamTwoScoreChange, setTeamTwoScoreChange] = useState(0);
-  const [tricksChanged, setTricksChanged] = useState(false);
 
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -31,17 +31,16 @@ export function NewHand() {
   const game = useSelector(state => state.games.gamesList[CurrentGameId]);
 
   const handlenumberOfTricksWonSlider = value => {
-    setTricksChanged(true);
     setNumberOfTricksWon(value);
   };
 
-  const handleOnNextButtonOnPressIn = () => {
-    setShowNextButtonTooltip(true);
-  };
+  // const handleOnNextButtonOnPressIn = () => {
+  //   setShowNextButtonTooltip(true);
+  // };
 
-  const handleOnNextButtonOnPressOut = () => {
-    setShowNextButtonTooltip(false);
-  };
+  // const handleOnNextButtonOnPressOut = () => {
+  //   setShowNextButtonTooltip(false);
+  // };
 
   const handleNextButtonOnPress = () => {
     const now = new Date();
@@ -49,7 +48,7 @@ export function NewHand() {
       GameId: CurrentGameId,
       DateEntered: now.toISOString(),
       BettingTeam: team,
-      Bet: suit,
+      Bet: bet,
       BetAmount: numberOfTricksBet + 6,
       WonAmount: numberOfTricksWon,
       TeamOneScore: teamOneScoreChange,
@@ -60,28 +59,39 @@ export function NewHand() {
   };
 
   useEffect(() => {
-    const betPlaced = team != -1 && suit != -1 && tricksChanged != false;
+    const betPlaced = team != -1 && bet && Object.keys(bet).length > 0;
 
-    const { teamOneScoreChange, teamTwoScoreChange } = calculateHandScore(suit, numberOfTricksWon, numberOfTricksBet + 6, team);
+    // If the bet hasnt been placed then exit
+    if (betPlaced === false) {
+      return;
+    }
+
+    // Calculate ethe hand score
+    const { teamOneScoreChange, teamTwoScoreChange } = calculateHandScore(
+      bet,
+      numberOfTricksWon,
+      numberOfTricksBet + 6,
+      team,
+    );
 
     setTeamOneScoreChange(teamOneScoreChange);
     setTeamTwoScoreChange(teamTwoScoreChange);
     setNextButtonDisabled(!betPlaced);
     setShowScoreChange(betPlaced);
-  }, [numberOfTricksWon, suit, numberOfTricksBet, team]);
+  }, [numberOfTricksWon, bet, numberOfTricksBet, team]);
 
   const getImageSource = suitSelected => {
     switch (suitSelected) {
       case 'SPADES':
-        return 1 === suit ? require('../../assets/suits/spades-outline.png') : require('../../assets/suits/spades.png');
+        return bet === betsV2.SPADES ? betsV2.SPADES.imageSourceOutline : betsV2.SPADES.imageSource;
       case 'CLUBS':
-        return 2 === suit ? require('../../assets/suits/clubs-outline.png') : require('../../assets/suits/clubs.png');
+        return bet === betsV2.CLUBS ? betsV2.CLUBS.imageSourceOutline : betsV2.CLUBS.imageSource;
       case 'DIAMONDS':
-        return 3 === suit ? require('../../assets/suits/diamonds-outline.png') : require('../../assets/suits/diamonds.png');
+        return bet === betsV2.DIAMONDS ? betsV2.DIAMONDS.imageSourceOutline : betsV2.DIAMONDS.imageSource;
       case 'HEARTS':
-        return 4 === suit ? require('../../assets/suits/hearts-outline.png') : require('../../assets/suits/hearts.png');
+        return bet === betsV2.HEARTS ? betsV2.HEARTS.imageSourceOutline : betsV2.CLUBS.imageSource;
       case 'NO_TRUMPS':
-        return 5 === suit ? require('../../assets/suits/no_trumps-outline.png') : require('../../assets/suits/no_trumps.png');
+        return bet === betsV2.NO_TRUMPS ? betsV2.NO_TRUMPS.imageSourceOutline : betsV2.NO_TRUMPS.imageSource;
     }
   };
 
@@ -161,12 +171,48 @@ export function NewHand() {
     setTeamSelectorIndex(value);
   };
   const handleSuitButtonGroup = value => {
-    setSuit(value + 1);
+    switch (value) {
+      case 0:
+        setBet(betsV2.SPADES);
+        break;
+      case 1:
+        setBet(betsV2.CLUBS);
+        break;
+      case 2:
+        setBet(betsV2.DIAMONDS);
+        break;
+      case 2:
+        setBet(betsV2.HEARTS);
+        break;
+      case 2:
+        setBet(betsV2.NO_TRUMPS);
+        break;
+    }
     setSuitSelectorIndex(value);
+    setMisereSelectorIndex(-1);
+  };
+
+  const handleMisereBetButtonGroup = value => {
+    setSuitSelectorIndex(-1);
+    setNumberOfTricksBet(-1);
+
+    switch (value) {
+      case 0:
+        setBet(betsV2.MISERE);
+        break;
+      case 1:
+        setBet(betsV2.OPEN_MISERE);
+        break;
+      case 2:
+        setBet(betsV2.BLIND_MISERE);
+        break;
+    }
+    setMisereSelectorIndex(value);
   };
 
   const handleNumberOfTricksBetButtonGroup = value => {
     setNumberOfTricksBet(value);
+    setMisereSelectorIndex(-1);
   };
 
   const getScoreColor = scoreChange => {
@@ -209,16 +255,22 @@ export function NewHand() {
           selectedButtonStyle={styles.buttonGroupSelected}
         />
         <ButtonGroup
-          buttons={[{ element: cmp_spades }, { element: cmp_clubs }, { element: cmp_diamonds }, { element: cmp_hearts }, { element: cmp_notrumps }]}
+          buttons={[
+            { element: cmp_spades },
+            { element: cmp_clubs },
+            { element: cmp_diamonds },
+            { element: cmp_hearts },
+            { element: cmp_notrumps },
+          ]}
           selectedIndex={suitSelectorIndex}
           onPress={handleSuitButtonGroup}
           containerStyle={[styles.buttonGroupContainer]}
           selectedButtonStyle={styles.buttonGroupSelected}
         />
         <ButtonGroup
-          buttons={['Misère', 'Open Misère', 'Blind Misère']}
-          selectedIndex={numberOfTricksBet}
-          onPress={handleNumberOfTricksBetButtonGroup}
+          buttons={[betsV2.MISERE.Title, betsV2.OPEN_MISERE.Title, betsV2.BLIND_MISERE.Title]}
+          selectedIndex={misereSelectorIndex}
+          onPress={handleMisereBetButtonGroup}
           containerStyle={[styles.buttonGroupContainer]}
           selectedButtonStyle={styles.buttonGroupSelected}
         />
@@ -242,13 +294,17 @@ export function NewHand() {
           <>
             <View style={[styles.scoreChangeSection, getScoreChangeSectionBorder()]}>
               <View style={styles.scoreChangeInner}>
-                <Text style={[styles.headerText, { textAlign: 'center', marginTop: 0 }, getScoreColor(teamOneScoreChange)]}>
+                <Text
+                  style={[styles.headerText, { textAlign: 'center', marginTop: 0 }, getScoreColor(teamOneScoreChange)]}
+                >
                   {getScoreIndicator(teamOneScoreChange)}
                   {teamOneScoreChange}
                 </Text>
               </View>
               <View style={styles.scoreChangeInner}>
-                <Text style={[styles.headerText, { textAlign: 'center', marginTop: 0 }, getScoreColor(teamTwoScoreChange)]}>
+                <Text
+                  style={[styles.headerText, { textAlign: 'center', marginTop: 0 }, getScoreColor(teamTwoScoreChange)]}
+                >
                   {getScoreIndicator(teamTwoScoreChange)}
                   {teamTwoScoreChange}
                 </Text>
@@ -257,14 +313,19 @@ export function NewHand() {
           </>
         )}
         <View style={[styles.sectionContainer, styles.bottomButtons]}>
-          <TouchableOpacity disabled={nextButtonDisabled} onPressIn={handleOnNextButtonOnPressIn} onPressOut={handleOnNextButtonOnPressOut} onPress={handleNextButtonOnPress}>
-            <Ionicons name="ios-arrow-forward-circle-sharp" color={nextButtonDisabled ? colors.gray : colors.primary} size={60} style={{ paddingLeft: 10 }} />
+          <TouchableOpacity
+            disabled={nextButtonDisabled}
+            // onPressIn={handleOnNextButtonOnPressIn}
+            // onPressOut={handleOnNextButtonOnPressOut}
+            onPress={handleNextButtonOnPress}
+          >
+            <Ionicons
+              name="ios-arrow-forward-circle-sharp"
+              color={nextButtonDisabled ? colors.gray : colors.primary}
+              size={60}
+              style={{ paddingLeft: 10 }}
+            />
           </TouchableOpacity>
-          {/* <Ionicons name={'md-stats-chart-sharp'} 
-                                color={colors.primary} 
-                                size={60}
-                                style={{borderWidth:1, borderRadius:10, textAlign: 'center'}}
-                    /> */}
         </View>
       </View>
     </View>

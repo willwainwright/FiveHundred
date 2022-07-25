@@ -4,12 +4,12 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { HeaderBackButton } from '@react-navigation/elements';
 
-import { Games } from '../screens/Games';
-import { Hands } from '../screens/Hands';
-import { NewGame } from '../screens/NewGame';
-import { NewHand } from '../screens/NewHand';
-// import { TextDemo, ButtonDemo, FormDemo } from '../screens/Demos';
-import colors from '../constants/colors';
+import { Games } from 'screens/Games';
+import { Hands } from 'screens/Hands';
+import { NewGame } from 'screens/NewGame';
+import { NewHand } from 'screens/NewHand';
+// import { TextDemo, ButtonDemo, FormDemo } from 'screens/Demos';
+import colors from 'constants/colors';
 
 const Tab = createBottomTabNavigator();
 

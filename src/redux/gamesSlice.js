@@ -54,6 +54,7 @@ const gamesSlice = createSlice({
 
       const newHand = {
         HandId: newHandId,
+        BettingTeam: action.payload.BettingTeam, // 1= TeamOne, 2=TeamTwo 
         DateEntered: action.payload.DateEntered,
         Bet: action.payload.Bet,
         BetAmount: action.payload.BetAmount,

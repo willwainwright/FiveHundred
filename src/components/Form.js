@@ -2,7 +2,7 @@ import React from 'react';
 import { TextInput as RNTextInput, StyleSheet, View } from 'react-native';
 
 import { Text } from './Text';
-import colors from '../constants/colors';
+import colors from 'constants/colors';
 
 const styles = StyleSheet.create({
   inputContainer: {

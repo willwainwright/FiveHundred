@@ -3,10 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 
 import { NewGameFormValidation } from './NewGameFormValidation';
-import { Button } from '../../components/Button';
-import { TextInput } from '../../components/Form';
-import { addGame } from '../../redux/gamesSlice';
-import colors from '../../constants/colors';
+import { Button } from 'components/Button';
+import { TextInput } from 'components/Form';
+import { addGame } from 'redux/gamesSlice';
+import colors from 'constants/colors';
 
 export function NewGame(props) {
   const { submit, errors, teamOne, setTeamOne, teamTwo, setTeamTwo } = NewGameFormValidation();

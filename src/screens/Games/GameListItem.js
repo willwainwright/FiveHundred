@@ -1,9 +1,9 @@
 import React from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 
-import { Text } from '../../components/Text';
-import colors from '../../constants/colors';
-import { ListItem } from '../../components/ListItem';
+import { Text } from 'components/Text';
+import colors from 'constants/colors';
+import { ListItem } from 'components/ListItem';
 
 const styles = StyleSheet.create({
   row: {

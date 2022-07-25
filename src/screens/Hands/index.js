@@ -3,13 +3,13 @@ import { View, StyleSheet, FlatList, Image } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 
-import colors from '../../constants/colors';
+import colors from 'constants/colors';
 import { HandListItem } from './HandListItem';
 import { HandsHeader } from './HandsHeader';
-import { ListSeparator } from '../../components/ListItem';
-import { EmptyList } from '../../components/EmptyList';
-import { FloatingButton } from '../../components/FloatingButton';
-import { deleteHand } from '../../redux/gamesSlice';
+import { ListSeparator } from 'components/ListItem';
+import { EmptyList } from 'components/EmptyList';
+import { FloatingButton } from 'components/FloatingButton';
+import { deleteHand } from 'redux/gamesSlice';
 
 export const Hands = () => {
   const dispatch = useDispatch();
@@ -55,7 +55,6 @@ export const Hands = () => {
   };
 
   const deleteHandHandler = index => {
-    console.log('deleteId:',index);
     dispatch(deleteHand(index));
     // alert('Delete Hand');
   };
@@ -72,7 +71,6 @@ export const Hands = () => {
         renderItem={({ item, index }) => (
           <HandListItem
             hand={item}
-            game={game}
             onDelete={() => deleteHandHandler(item.HandId)}
             onPress={() => alert('Edit hand: ' + item.HandId)}
           />
@@ -84,7 +82,7 @@ export const Hands = () => {
       <FloatingButton onPress={() => newHandButtonHandler(CurrentGameId)} />
       {completedGame && (
         <Image
-          source={require('../../../assets/fireworks.gif')}
+          source={require('assets/fireworks.gif')}
           style={styles.fireworks}
         />
       )}

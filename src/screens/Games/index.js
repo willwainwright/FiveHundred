@@ -3,13 +3,13 @@ import { View, StyleSheet, FlatList, Image } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 
-import colors from '../../constants/colors';
+import colors from 'constants/colors';
 import { GameListItem } from './GameListItem';
-import { ListSeparator } from '../../components/ListItem';
-import { EmptyList } from '../../components/EmptyList';
-import { FloatingButton } from '../../components/FloatingButton';
+import { ListSeparator } from 'components/ListItem';
+import { EmptyList } from 'components/EmptyList';
+import { FloatingButton } from 'components/FloatingButton';
 
-import { setActiveGame, deleteGame } from '../../redux/gamesSlice';
+import { setActiveGame, deleteGame } from 'redux/gamesSlice';
 
 export const Games = props => {
   const Games = useSelector(state => state.games.gamesList);

@@ -26,7 +26,6 @@ export const EmptyList = text => {
   return (
     <View style={styles.container}>
       <Text style={styles.emptyListStyle}>{text}</Text>
-      {/* <Image style={styles.newGameArrowStyle} source={require('../../assets/arrow.png')} /> */}
     </View>
   );
 };

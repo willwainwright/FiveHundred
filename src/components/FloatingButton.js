@@ -1,6 +1,6 @@
 import { TouchableOpacity, StyleSheet, Text } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import colors from '../constants/colors';
+import colors from 'constants/colors';
 
 const styles = StyleSheet.create({
   touchableOpacityStyle: {

@@ -1,4 +1,4 @@
-import { suits, bets, baseScore } from '../constants/game';
+import { suits, bets, baseScore, betsV2, pointsSystem } from 'constants/game';
 
 export const calculateRunningScore = (hands) => {
   let handsCopy = [...hands];
@@ -9,21 +9,19 @@ export const calculateRunningScore = (hands) => {
 
   let teamOneRunningScore = 0,
     teamTwoRunningScore = 0
-
-    
+        
   let final = handsCopy.map(v => {v.RunningTeamOneScore =(teamOneRunningScore += v.TeamOneScore), v.RunningTeamTwoScore =(teamTwoRunningScore += v.TeamTwoScore); return v});
 
-  // console.log('final:', final);
   return final
     
 };
 
-export const calculatePotentialScore = (Bet, BetAmount) => {
+export const calculatePotentialScore = (Bet, BetAmount, bettingsystem = pointsSystem.avondale) => {
   let betterHandScore = 0;
   // If its not a special bet
-  if (Bet < 6) {
+  if (!Bet.SpecialBet) {
     // For every bet above 6 add 100 onto the score
-    betterHandScore = (BetAmount - 6) * 100 + baseScore.avondale[Bet];
+    betterHandScore = (BetAmount - 6) * 100 + Bet.Value[bettingsystem]
 
     if (BetAmount === 10 && betterHandScore < 250) {
       betterHandScore = 250;
@@ -32,31 +30,50 @@ export const calculatePotentialScore = (Bet, BetAmount) => {
     }
   } else {
     // Set the score to the special amount
-    betterHandScore = baseScore.avondale[Bet];
+    betterHandScore = Bet.Value[bettingsystem];
     return betterHandScore;
   }
   return betterHandScore;
 };
 
-export const calculateHandScore = (Bet, TricksWon, TricksBet, BettingTeam) => {
+export const calculateHandScore = (Bet, TricksWon, TricksBet, BettingTeam, bettingsystem = pointsSystem.avondale) => {
   let betterHandScore = 0;
   let defenderHandScore = (10 - TricksWon) * 10;
 
   // If its not a special bet
-  if (Bet < 6) {
+  if (!Bet.SpecialBet) {
     // For every bet above 6 add 100 onto the score
-    betterHandScore = (TricksBet - 6) * 100 + baseScore.avondale[Bet];
+    betterHandScore = (TricksBet - 6) * 100 + Bet.Value[bettingsystem]
 
     if (TricksWon === 10 && betterHandScore < 250) {
       betterHandScore = 250;
     }
-  } else {
-    // Set the score to the special amount
-    betterHandScore = baseScore.avondale[Bet];
-  }
 
-  if (TricksWon < TricksBet) {
-    betterHandScore = betterHandScore * -1;
+    if (TricksWon < TricksBet) {
+      betterHandScore = betterHandScore * -1;
+    }
+
+  } else if (Bet.MisereBet){
+    // Misere betting. If the better lost all the tricks they get full points
+    if(TricksWon === 0) {
+      // Set the score to the special amount
+      betterHandScore = Bet.Value[bettingsystem];      
+    }
+    else {
+      // If they won even one hand then they lost
+      betterHandScore = Bet.Value[bettingsystem] * -1;
+    }
+
+    // Defending team dont get anything
+    defenderHandScore = 0;
+  }
+  else {
+    // Set the score to the special amount
+    betterHandScore = et.Value[bettingsystem];
+
+    if (TricksWon < TricksBet) {
+      betterHandScore = betterHandScore * -1;
+    }
   }
 
   const teamOneScoreChange = BettingTeam === 1 ? betterHandScore : defenderHandScore;
