@@ -1,4 +1,8 @@
-import { createStore } from "redux";
-import reducer from "./reducers/reducer";
-const store = createStore(reducer)
-export default store;
+import { configureStore } from '@reduxjs/toolkit';
+import gamesSlice from './gamesSlice';
+
+export const store = configureStore({
+  reducer: {
+    games: gamesSlice
+  },
+});

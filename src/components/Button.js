@@ -1,7 +1,7 @@
 import React from 'react';
 import { TouchableOpacity, Text, StyleSheet } from 'react-native';
 
-import colors from '../constants/colors';
+import colors from 'constants/colors';
 
 const styles = StyleSheet.create({
   container: {
@@ -28,8 +28,13 @@ const styles = StyleSheet.create({
   },
 });
 
-export const Button = (props) => {
-  const { onPress = () => {}, children = '', type, containerStylesOverride } = props;
+export const Button = props => {
+  const {
+    onPress = () => {},
+    children = '',
+    type,
+    containerStylesOverride,
+  } = props;
   const containerStyles = [styles.container];
   const textStyles = [styles.text];
 

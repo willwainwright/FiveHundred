@@ -5,8 +5,7 @@ export const NewGameFormValidation = () => {
   const [teamTwo, setTeamTwo] = React.useState('');
   const [errors, setErrors] = React.useState({});
 
-  const submit = (onSuccess) => {
-
+  const submit = onSuccess => {
     const nextErrors = {};
     if (teamOne.length === 0) {
       nextErrors.teamOne = 'Enter name for team one.';
@@ -24,8 +23,8 @@ export const NewGameFormValidation = () => {
       nextErrors.teamOne = 'Max length of team name is 20.';
     }
 
-    if(teamTwo === teamOne) {
-      nextErrors.teamTwo = 'Team names but be different'
+    if (teamTwo === teamOne) {
+      nextErrors.teamTwo = 'Team names but be different';
     }
 
     setErrors(nextErrors);
@@ -38,6 +37,11 @@ export const NewGameFormValidation = () => {
   };
 
   return {
-    submit, errors, teamOne, setTeamOne, teamTwo, setTeamTwo
+    submit,
+    errors,
+    teamOne,
+    setTeamOne,
+    teamTwo,
+    setTeamTwo,
   };
 };

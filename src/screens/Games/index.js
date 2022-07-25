@@ -1,36 +1,42 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, StyleSheet, FlatList, Image } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux'
-
-import colors from '../../constants/colors';
-import { GameListItem } from './GameListItem';
-import { ListSeparator } from '../../components/ListItem';
-import { EmptyList } from '../../components/EmptyList'
-import { FloatingButton } from '../../components/FloatingButton';
-import { deleteGame, setActiveGame } from '../../redux/actions/games';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 
-export const Games = (props) => {  
-  const Games = useSelector(state => state.Games)
-  const dispatch = useDispatch()
+import colors from 'constants/colors';
+import { GameListItem } from './GameListItem';
+import { ListSeparator } from 'components/ListItem';
+import { EmptyList } from 'components/EmptyList';
+import { FloatingButton } from 'components/FloatingButton';
+
+import { setActiveGame, deleteGame } from 'redux/gamesSlice';
+
+export const Games = props => {
+  const Games = useSelector(state => state.games.gamesList);
+  const dispatch = useDispatch();
   const navigation = useNavigation();
 
   const styles = StyleSheet.create({
     container: {
       flex: 1,
       backgroundColor: colors.background,
-    }
+    },
   });
+
+  // useEffect(() => {
+  //   // dispatch(getHandsByGame([0]));
+  //   dispatch(setActiveGame(0));
+  // }, [Games]);
 
   const newGameButtonHandler = () => {
     navigation.navigate('NewGame');
   };
 
-  const deleteGameHandler = (index) => {
+  const deleteGameHandler = index => {
     dispatch(deleteGame(index));
   };
 
-  const openGameHandler = (gameId) => {
+  const openGameHandler = gameId => {
     dispatch(setActiveGame(gameId));
     navigation.navigate('Hands');
   };
@@ -41,20 +47,20 @@ export const Games = (props) => {
         style={styles.container}
         contentContainerStyle={{ flex: 1 }}
         data={Games}
-        ListEmptyComponent={EmptyList("Tap the + button to create a new game")}
+        ListEmptyComponent={EmptyList('Tap the + button to create a new game')}
         keyExtractor={item => item.GameId}
-        renderItem={({item, index}) => (
+        renderItem={({ item, index }) => (
           <GameListItem
             game={item}
-            onDelete={() => deleteGameHandler(index)}
-            onPress={() => openGameHandler(navigation, item.GameId)}
+            onDelete={() => deleteGameHandler(item.GameId)}
+            onPress={() => openGameHandler(item.GameId)}
           />
         )}
         ItemSeparatorComponent={ListSeparator}
         ListHeaderComponent={ListSeparator}
         ListFooterComponent={ListSeparator}
       />
-      <FloatingButton onPress={() => newGameButtonHandler(navigation)} />
-    </View>  
+      <FloatingButton onPress={() => newGameButtonHandler()} />
+    </View>
   );
-}
+};
