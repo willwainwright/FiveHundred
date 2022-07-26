@@ -37,9 +37,7 @@ const gamesSlice = createSlice({
     setActiveGame(state, action) {
       state.activeGameId === action.payload;
 
-      const activeGameObj = state.gamesList[action.payload];
-
-      state.activeHandsList = state.handsList.filter(hand => activeGameObj?.Hands.includes(hand.HandId));
+      state.activeHandsList = state.handsList.filter(hand => state.gamesList[action.payload].Hands.includes(hand.HandId));
     },
     deleteGame(state, action) {
       state.gamesList = state.gamesList.filter(item => item.GameId !== action.payload.GameId);

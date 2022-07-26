@@ -18,7 +18,7 @@ export const Hands = () => {
   const [completedGame, setCompletedGame] = React.useState(false);
   const CurrentGameId = useSelector(state => state.games.activeGameId);
   const game = useSelector(state => state.games.gamesList[CurrentGameId]);
-  const hands = useSelector(state => state.games.activeHandsList);
+  const hands = useSelector(state => state.games.activeHandsList);;
 
   useEffect(() => {
     if (game?.ScoreOne >= 500 || game?.ScoreTwo >= 500) {
@@ -72,7 +72,8 @@ export const Hands = () => {
           <HandListItem
             hand={item}
             onDelete={() => deleteHandHandler(item.HandId)}
-            onPress={() => alert('Edit hand: ' + item.HandId)}
+            onPress={() => alert(index)}
+            index = {index}
           />
         )}
         ItemSeparatorComponent={ListSeparator}

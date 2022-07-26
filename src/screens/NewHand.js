@@ -89,7 +89,7 @@ export function NewHand() {
       case 'DIAMONDS':
         return bet === betsV2.DIAMONDS ? betsV2.DIAMONDS.imageSourceOutline : betsV2.DIAMONDS.imageSource;
       case 'HEARTS':
-        return bet === betsV2.HEARTS ? betsV2.HEARTS.imageSourceOutline : betsV2.CLUBS.imageSource;
+        return bet === betsV2.HEARTS ? betsV2.HEARTS.imageSourceOutline : betsV2.HEARTS.imageSource;
       case 'NO_TRUMPS':
         return bet === betsV2.NO_TRUMPS ? betsV2.NO_TRUMPS.imageSourceOutline : betsV2.NO_TRUMPS.imageSource;
     }
@@ -181,10 +181,10 @@ export function NewHand() {
       case 2:
         setBet(betsV2.DIAMONDS);
         break;
-      case 2:
+      case 3:
         setBet(betsV2.HEARTS);
         break;
-      case 2:
+      case 4:
         setBet(betsV2.NO_TRUMPS);
         break;
     }

@@ -23,11 +23,6 @@ export const Games = props => {
     },
   });
 
-  // useEffect(() => {
-  //   // dispatch(getHandsByGame([0]));
-  //   dispatch(setActiveGame(0));
-  // }, [Games]);
-
   const newGameButtonHandler = () => {
     navigation.navigate('NewGame');
   };
